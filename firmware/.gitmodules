@@ -1,0 +1,6 @@
+[submodule "lib/libopencm3"]
+	path = lib/libopencm3
+	url = git@github.com:libopencm3/libopencm3
+[submodule "lib/freertos_kernel"]
+	path = lib/freertos_kernel
+	url = git@github.com:FreeRTOS/FreeRTOS-Kernel.git
