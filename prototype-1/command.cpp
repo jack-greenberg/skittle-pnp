@@ -7,10 +7,15 @@
 static int g_parser(char* s, command_s* cmd) {
   char* ptr = s;
   int subcmd = atoi(ptr);
+  int rc = 0;
 
   switch (subcmd) {
     case 1: {
       cmd->type = G01;
+    } break;
+    default: {
+//      rc = 1;
+//      goto bail;
     } break;
   }
 
@@ -32,7 +37,8 @@ static int g_parser(char* s, command_s* cmd) {
     }
   }
 
-  return 0;
+bail:
+  return rc;
 }
 
 int parse_command(char* s, command_s* cmd) {
@@ -43,7 +49,7 @@ int parse_command(char* s, command_s* cmd) {
       rc = g_parser(s, cmd);
     } break;
     case 'M': {
-
+//      rc = m_parser(s, cmd);
     } break;
     default: {
       rc = 1;

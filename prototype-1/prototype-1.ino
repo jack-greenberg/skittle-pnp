@@ -57,6 +57,7 @@ void setup() {
 
 void loop() {
   int cmd_ready = -1;
+  int rc = 0;
 
   if (Serial.available()) {
     char c = Serial.read();
@@ -77,17 +78,22 @@ void loop() {
 
   if (cmd_ready == 0) {
     command_s cmd;
-    parse_command(data, &cmd);
+    rc = parse_command(data, &cmd);
 
-    Serial.print("Got command: ");
-    Serial.print(cmd.type); Serial.print(", ");
-    Serial.print(cmd.g01_args.x); Serial.print(", ");
-    Serial.print(cmd.g01_args.y); Serial.print(", ");
-    Serial.println(cmd.g01_args.z);
+    if (rc != 0) {
+      Serial.print("Error\n");
+    } else {
+      Serial.print("Got command: ");
+      Serial.print(cmd.type); Serial.print(", ");
+      Serial.print(cmd.g01_args.x); Serial.print(", ");
+      Serial.print(cmd.g01_args.y); Serial.print(", ");
+      Serial.println(cmd.g01_args.z);
+  
+      run(&cmd);
+      Serial.print("ok\n");
+    }
 
-    run(&cmd);
-
-    Serial.print("ok\n");
+    
     
     msg_size = 0;
   }
