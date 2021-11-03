@@ -1,26 +1,44 @@
 #pragma once
 #include <stdint.h>
+#include <stdlib.h>
 
-typedef struct {
-  char type;
-  uint16_t arg0;
-  uint16_t arg1;
-} command_s;
-
-typedef struct {
-  uint16_t ready;
-  uint16_t xpos; // skittle coordinate
-  uint16_t ypos; // skittle coordinate (0 for prototype 1)
-  uint16_t zpos; // 0 or 1 (for prototype 1)
-  uint16_t vacuum; // 0 or 1
-} response_s;
+//char* response_ok = "ok\n";
 
 /*
- * Parses command into an action
+ * G01 -> move()
+ * M400 -> vacuum_on()
+ * M401 -> vacuum_off()
  */
-int parse_command(char* data, int length, command_s* cmd);
+
+typedef enum {
+  G01,
+  M400,
+} type_e;
+
+typedef struct {
+  type_e type;
+  union {
+    struct G01_args {
+      float x;
+      float y;
+      float z;
+    } g01_args;
+    struct M400_args {
+      bool vacuum_on;
+    } m400_args;
+  };
+} command_s;
+
+/*
+ * Parses command string to get the type
+ * 
+ * The string
+ * 
+ * Returns 0 if successful or 1 if not
+ */
+int parse_command(char* s, command_s* cmd);
 
 /*
  * Creates a char* response, returns the size of the string
  */
-int create_response(char* data, response_s* resp);
+//int create_response(char* data, response_s* resp);
