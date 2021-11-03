@@ -16,24 +16,25 @@ time.sleep(2)
 def move_xyz(xpos, ypos, zpos):
     while True:
         bytes = arduino.readline()
-        decoded = float(bytes[0:len(bytes)-2].decode("utf-8"))
+        decoded = bytes[0:len(bytes)-2].decode("utf-8")
+        destination = "G01 X{} Y{} Z{}\n".format(xpos, ypos, zpos)
+        arduino.write(str.encode(destination))
+        time.sleep(1)
         if decoded == 'ok':
-            destination = "G01 X{} Y{} Z{}\n".format(xpos, ypos, zpos)
-            arduino.write(str.encode(destination))
-            time.sleep(1)
             break
 
 def change_succ(vstate):
     while True:
         bytes = arduino.readline()
-        decoded = float(bytes[0:len(bytes)-2].decode("utf-8"))
+        decoded = bytes[0:len(bytes)-2].decode("utf-8")
+        if vstate == 0:
+            destination = "M400"
+        else:
+            destination = "M401"
+        arduino.write(str.encode(destination))
+        time.sleep(1)
+
         if decoded == 'ok':
-            if vstate == 0:
-                destination = "M400"
-            else:
-                destination = "M401"
-            arduino.write(str.encode(destination))
-            time.sleep(1)
             break
 
 def move_skittle(xpos, ypos, xdest, ydest):
