@@ -4,48 +4,57 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int parse_command(char* data, int length, command_s* cmd) {
+static int g_parser(char* s, command_s* cmd) {
+  char* ptr = s;
+  int subcmd = atoi(ptr);
   int rc = 0;
-  char* cursor = data;
 
-  switch (data[0]) {
-    case 'm': {
-      cmd->type = 'm';
-      cursor++;
-
-      char* s;
-      s = strtok(cursor, ",");
-      cmd->arg0 = atoi(s);
-
-      s = strtok(NULL, ",");
-      cmd->arg1 = atoi(s);
-    } break;
-    case 'z': {
-      cmd->type = 'z';
-      cursor++;
-
-      cmd->arg0 = atoi(cursor);
-    } break;
-    case 'v': {
-      cmd->type = 'v';
-      cursor++;
-
-      cmd->arg0 = atoi(cursor);
+  switch (subcmd) {
+    case 1: {
+      cmd->type = G01;
     } break;
     default: {
-      rc = 1; // Invalid command
+//      rc = 1;
+//      goto bail;
+    } break;
+  }
+
+  while ((ptr = strchr(ptr, ' ')) != NULL) {
+    ptr++; // move past the space
+    switch (*ptr) {
+      case 'X': {
+        cmd->g01_args.x = atof(ptr + 1);
+      } break;
+      case 'Y': {
+        cmd->g01_args.y = atof(ptr + 1);
+      } break;
+      case 'Z': {
+        cmd->g01_args.z = atof(ptr + 1);
+      } break;
+      case 'F': {
+        // unimplemented!();
+      } break;
+    }
+  }
+
+bail:
+  return rc;
+}
+
+int parse_command(char* s, command_s* cmd) {
+  int rc = 0;
+
+  switch (*s) {
+    case 'G': {
+      rc = g_parser(s, cmd);
+    } break;
+    case 'M': {
+//      rc = m_parser(s, cmd);
+    } break;
+    default: {
+      rc = 1;
     } break;
   }
 
   return rc;
-}
-
-int create_response(char* data, response_s* resp) {
-  return sprintf(data, "%i,%i,%i,%i,%i\r\n",
-    resp->ready,
-    resp->xpos,
-    resp->ypos,
-    resp->zpos,
-    resp->vacuum
-  );
 }

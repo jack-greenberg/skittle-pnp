@@ -16,41 +16,31 @@ int msg_size = 0;
 
 Servo z_ax;
 
-static void cmd_move(uint16_t x, uint16_t y) {
-  for (int i = 0; i < x; i++) {
+static void cmd_move(float x, float y, float z) {
+  if (x > 0) {
+    digitalWrite(DIR_PIN, HIGH);
+  } else {
+    digitalWrite(DIR_PIN, LOW);
+  }
+
+  for (int i = 0; i < abs(x); i++) {
     digitalWrite(STEP_PIN,HIGH);
     delayMicroseconds(500);
     digitalWrite(STEP_PIN,LOW);
     delayMicroseconds(500);
   }
-}
-static void cmd_z(uint16_t z) {
-  if (z == Z_DOWN) {
-    z_ax.write(SERVO_DOWN);
-  } else {
-    z_ax.write(SERVO_UP);
-  }
-}
-static void cmd_v(uint16_t v) {
-  if (v) {
-    // turn on vacuum
-  } else {
-    // turn off vacuum
-  }
+
+  z_ax.write(-z);
 }
 
 void run(command_s* cmd) {
   switch (cmd->type) {
-    case 'm': {
-      cmd_move(cmd->arg0, cmd->arg1);
+    case G01: {
+      cmd_move(cmd->g01_args.x, cmd->g01_args.y, cmd->g01_args.z);
     } break;
-    case 'z': {
-      // Servo control for up/down
-      cmd_z(cmd->arg0);
-    } break;
-    case 'v': {
+    case M400: {
       // Vacuum control
-      cmd_v(cmd->arg0);
+//      cmd_v(0);
     } break;
   }
 }
@@ -67,14 +57,14 @@ void setup() {
 
 void loop() {
   int cmd_ready = -1;
+  int rc = 0;
 
   if (Serial.available()) {
     char c = Serial.read();
 
-    if (c == '\r') {
+    if (c == '\n') {
       data[msg_size] = '\0';
       cmd_ready = 0;
-    } else if (c == '\n') {
     } else {
       if (msg_size == 63) {
         data[msg_size] = '\0';
@@ -88,24 +78,23 @@ void loop() {
 
   if (cmd_ready == 0) {
     command_s cmd;
-    int valid = parse_command(data, msg_size, &cmd);
+    rc = parse_command(data, &cmd);
 
-//    Serial.print("Got command: ");
-//    Serial.print(cmd.type); Serial.print(",");
-//    Serial.print(cmd.arg0); Serial.print(",");
-//    Serial.println(cmd.arg1);
+    if (rc != 0) {
+      Serial.print("Error\n");
+    } else {
+      Serial.print("Got command: ");
+      Serial.print(cmd.type); Serial.print(", ");
+      Serial.print(cmd.g01_args.x); Serial.print(", ");
+      Serial.print(cmd.g01_args.y); Serial.print(", ");
+      Serial.println(cmd.g01_args.z);
+  
+      run(&cmd);
+      Serial.print("ok\n");
+    }
 
-    run(&cmd);
+    
     
     msg_size = 0;
   }
-
-//  digitalWrite(dirPin,LOW);
-//
-//  for(int x = 0; x < 800; x++) {
-//    digitalWrite(stepPin,HIGH);
-//    delayMicroseconds(500);
-//    digitalWrite(stepPin,LOW);
-//    delayMicroseconds(500);
-//  }
 }
