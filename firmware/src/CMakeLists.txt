@@ -5,6 +5,9 @@ include_directories(inc)
 file(GLOB C_SOURCE
     main.c
     opencm3.c
+    gcode.c
+    serial.c
+    actuate.c
 )
 
 set_source_files_properties(${C_SOURCE}
