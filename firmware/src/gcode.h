@@ -24,10 +24,10 @@ typedef struct {
             int32_t z;
         } g01;
         struct M400_args_s {
-            bool on;
+            // Empty
         } m400;
         struct M401_args_s {
-            bool on;
+            // Empty
         } m401;
     };
 } gcode_command_s;

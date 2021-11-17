@@ -4,12 +4,10 @@
 
 #define RECV_BUF_SIZE (256)
 
-#define CONSOLE_UART (USART2)
+void uart_putc(int usart, char c);
 
-void console_putc(char c);
+// char uart_getc(int usart, int wait);
 
-char console_getc(int wait);
+void uart_puts(int usart, char *s);
 
-void console_puts(char *s);
-
-int console_gets(char *s, int len);
+// int uart_gets(int usart, char *s, int len);

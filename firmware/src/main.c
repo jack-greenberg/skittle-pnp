@@ -10,6 +10,7 @@
 #include <libopencm3/cm3/cortex.h>
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "gcode.h"
 #include "serial.h"
@@ -19,17 +20,17 @@
 const stepper_s stepper_x = {
     // TODO
     .step_pin = GPIO13,
-    .step_port = GPIOC,
+    .step_port = GPIOB,
     .dir_pin = GPIO12,
-    .dir_port = GPIOC,
+    .dir_port = GPIOB,
 };
 
 const stepper_s stepper_y = {
     // TODO
     .step_pin = GPIO15,
-    .step_port = GPIOC,
+    .step_port = GPIOB,
     .dir_pin = GPIO14,
-    .dir_port = GPIOC,
+    .dir_port = GPIOB,
 };
 
 const pin_s servo = {
@@ -73,43 +74,39 @@ void task_uart(void *args __attribute__((unused))) {
     for (;;) {
         // Block until UART received
         xQueueReceive(uart1_queue, &c, portMAX_DELAY);
+        uart_putc(USART1, c);
 
-        if (c != '\n') {
+        if (c != '\r') {
             uart_buffer[uart_buffer_length] = c;
             uart_buffer_length++;
         } else {
+            uart_putc(USART1, '\n');
             // c == '\n'
             uart_buffer[uart_buffer_length] = '\0';
             uart_buffer_length++;
+            uart_puts(USART1, "Sent to GCode processor\n");
             xMessageBufferSend(raw_gcode_buffer, &uart_buffer,
                                uart_buffer_length, 0);
-        }
-    }
-}
 
-void task_shell(void *args __attribute__((unused))) {
-    char buf[RECV_BUF_SIZE];
-    int len;
-
-    for (;;) {
-        console_puts("Enter a string: ");
-        len = console_gets(buf, 128);
-        if (len) {
-            console_puts("\nYou entered : '");
-            console_puts(buf);
-            console_puts("'\n");
-        } else {
-            console_puts("\n");
+            uart_buffer_length = 0;
         }
     }
 }
 
 void task_gcode(void *args __attribute__((unused))) {
-    char gcode[64];
     int rc = 0;
 
     for (;;) {
-        size_t len = xMessageBufferReceive(raw_gcode_buffer, &gcode, 64, 0);
+        char gcode[64];
+
+        size_t len = xMessageBufferReceive(raw_gcode_buffer, &gcode, 64, portMAX_DELAY);
+
+        xMessageBufferReset(raw_gcode_buffer);
+
+        uart_puts(USART1, "Received in GCode processor\n");
+        uart_puts(USART1, gcode);
+        uart_putc(USART1, '\n');
+
         (void)len;
 
         // decode
@@ -117,13 +114,18 @@ void task_gcode(void *args __attribute__((unused))) {
         rc = gcode_parse(gcode, len, &cmd);
 
         if (rc == GCODE_PARSE_UNKNOWN) {
+            uart_puts(USART1, "Parse unknown\n");
             // handle error
         } else if (rc == GCODE_PARSE_ERROR) {
+            uart_puts(USART1, "Parse error\n");
             // handle error
         } else {
+            uart_puts(USART1, "Parse successful\n");
             // TODO handle queue full
             xQueueSend(command_queue, (void *)&cmd, 0);
         }
+
+        memset(gcode, 0, 64);
     }
 }
 
@@ -136,6 +138,8 @@ void task_motion(void *args __attribute__((unused))) {
 
     for (;;) {
         xQueueReceive(command_queue, &cmd, portMAX_DELAY);
+
+        uart_puts(USART1, "Got command\n");
 
         switch (cmd.type) {
             case G01: {
@@ -150,7 +154,7 @@ void task_motion(void *args __attribute__((unused))) {
             } break;
         }
 
-        // send "ok\n"
+        uart_puts(USART1, "ok\n");
     }
 }
 
@@ -190,25 +194,34 @@ static void usart_setup(int uart) {
     }
 
     usart_enable_rx_interrupt(uart);
-
     usart_enable(uart);
 }
 
 static void gpio_setup(void) {
     gpio_set_mode(limit_x.port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, limit_x.pin);
     gpio_set_mode(limit_y.port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, limit_y.pin);
+
+    gpio_set_mode(stepper_x.step_port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_x.step_pin);
+    gpio_set_mode(stepper_y.step_port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_y.step_pin);
+    gpio_set_mode(stepper_x.dir_port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_x.dir_pin);
+    gpio_set_mode(stepper_y.dir_port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_y.dir_pin);
+
+    gpio_clear(stepper_x.step_port, stepper_x.step_pin);
+    gpio_clear(stepper_y.step_port, stepper_y.step_pin);
+    gpio_clear(stepper_x.dir_port, stepper_x.dir_pin);
+    gpio_clear(stepper_y.dir_port, stepper_y.dir_pin);
 }
 
 int main(void) {
     rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
     rcc_periph_clock_enable(RCC_USART1);
-    rcc_periph_clock_enable(RCC_USART2);
+    // rcc_periph_clock_enable(RCC_USART2);
     rcc_periph_clock_enable(RCC_GPIOA);
     rcc_periph_clock_enable(RCC_GPIOB);
 
     gpio_setup();
     usart_setup(USART1);
-    usart_setup(USART2);
+    // usart_setup(USART2);
 
     /*
      * Synchronization
@@ -220,7 +233,7 @@ int main(void) {
 
     xTaskCreate(task_gcode, "gcode", 100, NULL, configMAX_PRIORITIES - 1, NULL);
     xTaskCreate(task_uart, "uart", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    // xTaskCreate(task_shell, "shell", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+    // xTaskCreate(task_shell, "shell", 100, NULL, configMAX_PRIORITIES - 3, NULL);
     // xTaskCreate(task_ui, "ui", 100, NULL, configMAX_PRIORITIES - 1, NULL);
     xTaskCreate(task_motion, "motion", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 
