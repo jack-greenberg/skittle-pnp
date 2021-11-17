@@ -24,8 +24,16 @@ extern pin_s solenoid;
 extern pin_s limit_x;
 extern pin_s limit_y;
 
-void exti0_isr(void) {
-    // Limits
+void exti4_isr(void) {
+    // Limit x
+    STOP_X = true;
+    x_pos = 0;
+}
+
+void exti5_isr(void) {
+    // Limit y
+    STOP_Y = true;
+    y_pos = 0;
 }
 
 static void stepper_step(uint8_t dir, stepper_s* stepper) {
@@ -38,10 +46,20 @@ static void stepper_step(uint8_t dir, stepper_s* stepper) {
     gpio_set(stepper->step_port, stepper->step_pin);
 
     // wait 500us
+    TIM_ARR(TIM6) = 500;
+	TIM_EGR(TIM6) = TIM_EGR_UG;
+	TIM_CR1(TIM6) |= TIM_CR1_CEN;
+	//timer_enable_counter(TIM6);
+	while (TIM_CR1(TIM6) & TIM_CR1_CEN);
 
     gpio_clear(stepper->step_port, stepper->step_pin);
     
     // wait 500us
+    TIM_ARR(TIM6) = 500;
+	TIM_EGR(TIM6) = TIM_EGR_UG;
+	TIM_CR1(TIM6) |= TIM_CR1_CEN;
+	//timer_enable_counter(TIM6);
+	while (TIM_CR1(TIM6) & TIM_CR1_CEN);
 }
 
 void move_linear(int32_t x, int32_t y) {

@@ -7,6 +7,8 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/usart.h>
+#include <libopencm3/stm32/exti.h>
+#include <libopencm3/stm32/timer.h>
 #include <libopencm3/cm3/cortex.h>
 
 #include <stdlib.h>
@@ -210,6 +212,26 @@ static void gpio_setup(void) {
     gpio_clear(stepper_y.step_port, stepper_y.step_pin);
     gpio_clear(stepper_x.dir_port, stepper_x.dir_pin);
     gpio_clear(stepper_y.dir_port, stepper_y.dir_pin);
+
+    // Enable exti0 interrupts, defined in actuate.c
+    nvic_enable_irq(NVIC_EXTI4_IRQ);
+    exti_select_source(EXTI4, limit_x.port);
+	exti_set_trigger(EXTI4, EXTI_TRIGGER_FALLING);
+	exti_enable_request(EXTI4);
+
+    nvic_enable_irq(NVIC_EXTI9_5_IRQ);
+    exti_select_source(EXTI5, limit_y.port);
+	exti_set_trigger(EXTI5, EXTI_TRIGGER_FALLING);
+	exti_enable_request(EXTI5);
+}
+
+static void tim_setup(void) {
+    /* set up a microsecond free running timer for delay */
+	rcc_periph_clock_enable(RCC_TIM6);
+	/* microsecond counter */
+	timer_set_prescaler(TIM6, rcc_apb1_frequency / 1000000 - 1);
+	timer_set_period(TIM6, 0xffff);
+	timer_one_shot_mode(TIM6);
 }
 
 int main(void) {
@@ -221,7 +243,7 @@ int main(void) {
 
     gpio_setup();
     usart_setup(USART1);
-    // usart_setup(USART2);
+    tim_setup();
 
     /*
      * Synchronization
