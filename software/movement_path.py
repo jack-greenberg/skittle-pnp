@@ -1,5 +1,5 @@
 import cv2 
-from convert_image import palette
+from image_processing import palette
 import serial
 import time
 
