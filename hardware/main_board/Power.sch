@@ -47,7 +47,7 @@ $EndComp
 Wire Wire Line
 	5250 2400 5600 2400
 Wire Wire Line
-	5600 2400 5600 2550
+	5600 2400 5600 2500
 Connection ~ 5600 2400
 Wire Wire Line
 	4950 2700 4950 2850
@@ -76,7 +76,7 @@ F 3 "" H 5600 3000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5600 2850 5600 3000
+	5600 2800 5600 3000
 Text Notes 4500 1950 0    50   ~ 0
 12V - 5V Linear Regulator
 Text GLabel 2050 1900 0    50   Input ~ 0
@@ -346,15 +346,15 @@ $EndComp
 $Comp
 L formula:C_10uF_16V C202
 U 1 1 6239EB03
-P 5600 2700
-F 0 "C202" H 5900 2700 50  0000 R CNN
-F 1 "C_10uF_16V" H 6100 2800 50  0000 R CNN
-F 2 "footprints:C_0805_OEM" H 5638 2550 50  0001 C CNN
-F 3 "http://www.samsungsem.com/kr/support/product-search/mlcc/__icsFiles/afieldfile/2016/01/15/Data%20sheet_CL21A106KOCLRNC.pdf" H 5625 2800 50  0001 C CNN
-F 4 "DK" H 5600 2700 60  0001 C CNN "MFN"
-F 5 "1276-2399-1-ND" H 5600 2700 60  0001 C CNN "MPN"
-F 6 "https://www.digikey.com/product-detail/en/samsung-electro-mechanics/CL21A106KOCLRNC/1276-2399-1-ND/3890485" H 6025 3200 60  0001 C CNN "PurchasingLink"
-	1    5600 2700
+P 5600 2650
+F 0 "C202" H 5900 2650 50  0000 R CNN
+F 1 "C_10uF_16V" H 6100 2750 50  0000 R CNN
+F 2 "footprints:C_0805_OEM" H 5638 2500 50  0001 C CNN
+F 3 "http://www.samsungsem.com/kr/support/product-search/mlcc/__icsFiles/afieldfile/2016/01/15/Data%20sheet_CL21A106KOCLRNC.pdf" H 5625 2750 50  0001 C CNN
+F 4 "DK" H 5600 2650 60  0001 C CNN "MFN"
+F 5 "1276-2399-1-ND" H 5600 2650 60  0001 C CNN "MPN"
+F 6 "https://www.digikey.com/product-detail/en/samsung-electro-mechanics/CL21A106KOCLRNC/1276-2399-1-ND/3890485" H 6025 3150 60  0001 C CNN "PurchasingLink"
+	1    5600 2650
 	-1   0    0    1   
 $EndComp
 Text Notes 4200 3650 0    50   ~ 0
