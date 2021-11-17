@@ -566,7 +566,7 @@ Wire Wire Line
 	1550 1900 3250 1900
 Text Label 9300 5250 0    50   ~ 0
 PUMP_GND
-Text Label 7450 4400 0    50   ~ 0
+Text Label 7450 4500 0    50   ~ 0
 SERVO_PWM
 $Comp
 L Connector:Screw_Terminal_01x04 J409
@@ -879,25 +879,19 @@ Text Label 6400 3000 0    50   ~ 0
 SERVO_PWM
 Text Label 7450 4300 0    50   ~ 0
 SERVO_PWR
-Text Label 7450 4500 0    50   ~ 0
+Text Label 7450 4400 0    50   ~ 0
 SERVO_GND
-Wire Wire Line
-	7250 4400 7450 4400
 $Comp
 L power:GND #PWR0419
 U 1 1 623D2737
-P 8050 4550
-F 0 "#PWR0419" H 8050 4300 50  0001 C CNN
-F 1 "GND" H 8055 4377 50  0000 C CNN
-F 2 "" H 8050 4550 50  0001 C CNN
-F 3 "" H 8050 4550 50  0001 C CNN
-	1    8050 4550
+P 8050 4450
+F 0 "#PWR0419" H 8050 4200 50  0001 C CNN
+F 1 "GND" H 8055 4277 50  0000 C CNN
+F 2 "" H 8050 4450 50  0001 C CNN
+F 3 "" H 8050 4450 50  0001 C CNN
+	1    8050 4450
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	7250 4500 8050 4500
-Wire Wire Line
-	8050 4500 8050 4550
 NoConn ~ 7250 4600
 Text Label 9300 5150 0    50   ~ 0
 VALVE_PWR
@@ -977,4 +971,10 @@ Wire Wire Line
 Connection ~ 9750 2550
 Wire Wire Line
 	9750 2550 9750 2600
+Wire Wire Line
+	7250 4400 8050 4400
+Wire Wire Line
+	8050 4400 8050 4450
+Wire Wire Line
+	7250 4500 7450 4500
 $EndSCHEMATC

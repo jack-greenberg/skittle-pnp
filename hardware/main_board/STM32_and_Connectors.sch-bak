@@ -616,33 +616,33 @@ F 3 "" H 9750 2600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	9750 2100 9750 2450
+	9750 2100 9750 2150
 $Comp
 L formula:R_10K R401
 U 1 1 62101034
-P 9200 2200
-F 0 "R401" H 9270 2246 50  0000 L CNN
-F 1 "R_10K" H 9270 2155 50  0000 L CNN
-F 2 "footprints:R_0805_OEM" H 9130 2200 50  0001 C CNN
-F 3 "http://www.bourns.com/data/global/pdfs/CRS.pdf" H 9280 2200 50  0001 C CNN
-F 4 "DK" H 9200 2200 60  0001 C CNN "MFN"
-F 5 "CRS0805-FX-1002ELFCT-ND" H 9200 2200 60  0001 C CNN "MPN"
-F 6 "https://www.digikey.com/products/en?keywords=CRS0805-FX-1002ELFCT-ND" H 9680 2600 60  0001 C CNN "PurchasingLink"
-	1    9200 2200
+P 9200 2150
+F 0 "R401" H 9270 2196 50  0000 L CNN
+F 1 "R_10K" H 9270 2105 50  0000 L CNN
+F 2 "footprints:R_0805_OEM" H 9130 2150 50  0001 C CNN
+F 3 "http://www.bourns.com/data/global/pdfs/CRS.pdf" H 9280 2150 50  0001 C CNN
+F 4 "DK" H 9200 2150 60  0001 C CNN "MFN"
+F 5 "CRS0805-FX-1002ELFCT-ND" H 9200 2150 60  0001 C CNN "MPN"
+F 6 "https://www.digikey.com/products/en?keywords=CRS0805-FX-1002ELFCT-ND" H 9680 2550 60  0001 C CNN "PurchasingLink"
+	1    9200 2150
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	9200 1900 9200 2050
+	9200 1900 9200 2000
 Connection ~ 9200 1900
 Wire Wire Line
 	9200 1900 9450 1900
 Wire Wire Line
-	9200 2450 9200 2350
+	9200 2400 9200 2300
 Wire Wire Line
-	9200 2450 9750 2450
-Connection ~ 9750 2450
+	9200 2400 9750 2400
+Connection ~ 9750 2400
 Wire Wire Line
-	9750 2450 9750 2600
+	9750 2400 9750 2550
 Wire Wire Line
 	9750 1300 9750 1700
 Wire Wire Line
@@ -952,4 +952,29 @@ Text Label 9300 6100 0    50   ~ 0
 Y_LIMIT_SW1
 Text Label 9300 6000 0    50   ~ 0
 Y_LIMIT_SW2
+$Comp
+L Device:D D401
+U 1 1 62447517
+P 9950 2350
+F 0 "D401" V 9904 2429 50  0000 L CNN
+F 1 "D" V 9995 2429 50  0000 L CNN
+F 2 "" H 9950 2350 50  0001 C CNN
+F 3 "~" H 9950 2350 50  0001 C CNN
+	1    9950 2350
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9750 2150 9950 2150
+Wire Wire Line
+	9950 2150 9950 2200
+Connection ~ 9750 2150
+Wire Wire Line
+	9750 2150 9750 2400
+Wire Wire Line
+	9950 2500 9950 2550
+Wire Wire Line
+	9950 2550 9750 2550
+Connection ~ 9750 2550
+Wire Wire Line
+	9750 2550 9750 2600
 $EndSCHEMATC
