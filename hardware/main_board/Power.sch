@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 4
+Sheet 2 5
 Title ""
 Date ""
 Rev ""
@@ -176,20 +176,6 @@ F 3 "" H 6400 2900 50  0001 C CNN
 	1    6400 2900
 	-1   0    0    1   
 $EndComp
-$Comp
-L formula:R_100 R203
-U 1 1 61DB93FF
-P 6400 2600
-F 0 "R203" H 6470 2646 50  0000 L CNN
-F 1 "R_100" H 6470 2555 50  0000 L CNN
-F 2 "footprints:R_0805_OEM" H 5600 2750 50  0001 C CNN
-F 3 "https://www.seielect.com/Catalog/SEI-rncp.pdf" H 6100 3100 50  0001 C CNN
-F 4 "DK" H 6400 2600 60  0001 C CNN "MFN"
-F 5 "RNCP0805FTD100RCT-ND" H 5750 2850 60  0001 C CNN "MPN"
-F 6 "https://www.digikey.com/products/en?keywords=RNCP0805FTD100RCT-ND" H 6880 3000 60  0001 C CNN "PurchasingLink"
-	1    6400 2600
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	6400 2400 6400 2450
 Wire Wire Line
@@ -199,8 +185,6 @@ Wire Wire Line
 	6400 2400 6550 2400
 Wire Wire Line
 	6400 2750 6400 2850
-Text Notes 6800 2600 0    50   ~ 0
-min 65Ohm resistor
 $Comp
 L formula:Test_Point_SMD TP206
 U 1 1 61DBD197
@@ -329,34 +313,50 @@ F 3 "http://www.ti.com/lit/ds/symlink/lm1117.pdf" H 4950 2400 50  0001 C CNN
 	1    4950 2400
 	1    0    0    -1  
 $EndComp
-$Comp
-L formula:C_10uF_16V C201
-U 1 1 623924BD
-P 4400 2650
-F 0 "C201" H 4700 2650 50  0000 R CNN
-F 1 "C_10uF_16V" H 4900 2750 50  0000 R CNN
-F 2 "footprints:C_0805_OEM" H 4438 2500 50  0001 C CNN
-F 3 "http://www.samsungsem.com/kr/support/product-search/mlcc/__icsFiles/afieldfile/2016/01/15/Data%20sheet_CL21A106KOCLRNC.pdf" H 4425 2750 50  0001 C CNN
-F 4 "DK" H 4400 2650 60  0001 C CNN "MFN"
-F 5 "1276-2399-1-ND" H 4400 2650 60  0001 C CNN "MPN"
-F 6 "https://www.digikey.com/product-detail/en/samsung-electro-mechanics/CL21A106KOCLRNC/1276-2399-1-ND/3890485" H 4825 3150 60  0001 C CNN "PurchasingLink"
-	1    4400 2650
-	-1   0    0    1   
-$EndComp
-$Comp
-L formula:C_10uF_16V C202
-U 1 1 6239EB03
-P 5600 2650
-F 0 "C202" H 5900 2650 50  0000 R CNN
-F 1 "C_10uF_16V" H 6100 2750 50  0000 R CNN
-F 2 "footprints:C_0805_OEM" H 5638 2500 50  0001 C CNN
-F 3 "http://www.samsungsem.com/kr/support/product-search/mlcc/__icsFiles/afieldfile/2016/01/15/Data%20sheet_CL21A106KOCLRNC.pdf" H 5625 2750 50  0001 C CNN
-F 4 "DK" H 5600 2650 60  0001 C CNN "MFN"
-F 5 "1276-2399-1-ND" H 5600 2650 60  0001 C CNN "MPN"
-F 6 "https://www.digikey.com/product-detail/en/samsung-electro-mechanics/CL21A106KOCLRNC/1276-2399-1-ND/3890485" H 6025 3150 60  0001 C CNN "PurchasingLink"
-	1    5600 2650
-	-1   0    0    1   
-$EndComp
 Text Notes 4200 3650 0    50   ~ 0
 change caps to this:\nhttps://www.vishay.com/docs/40080/tr3.pdf
+$Comp
+L skittle_pnp:C_10uF+ C201
+U 1 1 62AA4E23
+P 4400 2650
+F 0 "C201" H 4515 2696 50  0000 L CNN
+F 1 "C_10uF+" H 4515 2605 50  0000 L CNN
+F 2 "skittle_pnp:T491C105K050AT" H 4438 2500 50  0001 C CNN
+F 3 "https://www.vishay.com/docs/40080/tr3.pdf" H 4400 2650 50  0001 C CNN
+F 4 "https://www.digikey.com/en/products/detail/vishay-sprague/TR3C106K016C0500/13587248" H 4400 2650 50  0001 C CNN "Purchasing Link"
+F 5 "DK" H 4400 2650 50  0001 C CNN "MFN"
+F 6 "718-TR3C106K016C0500CT-ND" H 4400 2650 50  0001 C CNN "MPN"
+	1    4400 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L skittle_pnp:C_10uF+ C202
+U 1 1 62AA54E6
+P 5600 2650
+F 0 "C202" H 5715 2696 50  0000 L CNN
+F 1 "C_10uF+" H 5715 2605 50  0000 L CNN
+F 2 "skittle_pnp:T491C105K050AT" H 5638 2500 50  0001 C CNN
+F 3 "https://www.vishay.com/docs/40080/tr3.pdf" H 5600 2650 50  0001 C CNN
+F 4 "https://www.digikey.com/en/products/detail/vishay-sprague/TR3C106K016C0500/13587248" H 5600 2650 50  0001 C CNN "Purchasing Link"
+F 5 "DK" H 5600 2650 50  0001 C CNN "MFN"
+F 6 "718-TR3C106K016C0500CT-ND" H 5600 2650 50  0001 C CNN "MPN"
+	1    5600 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L formula:R_200 R203
+U 1 1 62AA9E7D
+P 6400 2600
+F 0 "R203" H 6470 2646 50  0000 L CNN
+F 1 "R_200" H 6470 2555 50  0000 L CNN
+F 2 "footprints:R_0805_OEM" H 6330 2600 50  0001 C CNN
+F 3 "https://www.seielect.com/Catalog/SEI-RMCF_RMCP.pdf" H 6480 2600 50  0001 C CNN
+F 4 "DK" H 6400 2600 60  0001 C CNN "MFN"
+F 5 "RMCF0805JT200RCT-ND" H 6400 2600 60  0001 C CNN "MPN"
+F 6 "https://www.digikey.com/products/en?keywords=RMCF0805JT200RCT-ND" H 6880 3000 60  0001 C CNN "PurchasingLink"
+	1    6400 2600
+	1    0    0    -1  
+$EndComp
+Text Notes 6750 2650 0    50   ~ 0
+min 150 Ohm resistor
 $EndSCHEMATC

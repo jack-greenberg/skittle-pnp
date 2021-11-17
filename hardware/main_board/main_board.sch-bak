@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 4
+Sheet 1 5
 Title ""
 Date ""
 Rev ""
@@ -30,5 +30,11 @@ S 4650 2350 1000 600
 U 619053FC
 F0 "STM32_and_Connectors" 50
 F1 "STM32_and_Connectors.sch" 50
+$EndSheet
+$Sheet
+S 7250 2350 950  600 
+U 6286C9DB
+F0 "Valve_LSD" 50
+F1 "Valve_LSD.sch" 50
 $EndSheet
 $EndSCHEMATC
