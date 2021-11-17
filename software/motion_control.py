@@ -38,35 +38,35 @@ def change_succ(vstate):
             break
 
 def move_skittle(xpos, ypos, xdest, ydest):
+    z_up, z_down = 80, 0
     # move to skittle x and y
-    move_xyz(xpos, ypos, 0)
+    move_xyz(xpos, ypos, z_up)
 
     # move down
-    move_xyz(xpos, ypos, 1)
+    move_xyz(xpos, ypos, z_down)
 
     # succ skittle
     change_succ(1)
 
     # move back up
-    move_xyz(xpos, ypos, 0)
+    move_xyz(xpos, ypos, z_up)
 
     # move to skittle destination x and y
-    move_xyz(xdest, ydest, 0)
+    move_xyz(xdest, ydest, z_up)
 
     # move down
-    move_xyz(xdest, ydest, 1)
+    move_xyz(xdest, ydest, z_down)
 
     # unsucc skittle
     change_succ(0)
 
     # move back up
-    move_xyz(xdest, ydest, 0)
+    move_xyz(xdest, ydest, z_up)
 
 if __name__ == "__main__":
     # wait for initiation command?
 
     # skittles start at 0.5", 1.0", 1.5"
-
     # move first skittle
     xpos_s1, ypos_s1, xdest_s1, ydest_s1 = .5, 0, 2, 0
     move_skittle(xpos_s1, ypos_s1, xdest_s1, ydest_s1)
