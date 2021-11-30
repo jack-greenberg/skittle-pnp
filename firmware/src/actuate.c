@@ -1,8 +1,13 @@
 #include "actuate.h"
 #include "bsp.h"
+#include "serial.h"
+
+#include <FreeRTOS.h>
+#include <task.h>
 
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/timer.h>
+#include <libopencm3/stm32/usart.h>
 #include <math.h>
 #include <stdlib.h>
 
@@ -10,6 +15,7 @@
 
 #define CLOCKWISE (0)
 #define COUNTERCLOCKWISE (1)
+#define STEP_DELAY (500)
 
 static volatile int32_t x_pos;
 static volatile int32_t y_pos;
@@ -42,62 +48,80 @@ static void stepper_step(uint8_t dir, stepper_s* stepper) {
     } else {
         gpio_clear(stepper->dir_port, stepper->dir_pin);
     }
+    
+    TIM_ARR(TIM6) = 500;
+    TIM_EGR(TIM6) = TIM_EGR_UG;
+    TIM_CR1(TIM6) |= TIM_CR1_CEN;
+    timer_enable_counter(TIM6);
+    while (TIM_CR1(TIM6) & TIM_CR1_CEN);
 
     gpio_set(stepper->step_port, stepper->step_pin);
 
-    // wait 500us
     TIM_ARR(TIM6) = 500;
-	TIM_EGR(TIM6) = TIM_EGR_UG;
-	TIM_CR1(TIM6) |= TIM_CR1_CEN;
-	//timer_enable_counter(TIM6);
-	while (TIM_CR1(TIM6) & TIM_CR1_CEN);
+    TIM_EGR(TIM6) = TIM_EGR_UG;
+    TIM_CR1(TIM6) |= TIM_CR1_CEN;
+    timer_enable_counter(TIM6);
+    while (TIM_CR1(TIM6) & TIM_CR1_CEN);
 
     gpio_clear(stepper->step_port, stepper->step_pin);
-    
-    // wait 500us
-    TIM_ARR(TIM6) = 500;
-	TIM_EGR(TIM6) = TIM_EGR_UG;
-	TIM_CR1(TIM6) |= TIM_CR1_CEN;
-	//timer_enable_counter(TIM6);
-	while (TIM_CR1(TIM6) & TIM_CR1_CEN);
 }
 
 void move_linear(int32_t x, int32_t y) {
     // For horizontal, move 
     
-    int32_t delta_x = x - x_pos;
-    int32_t delta_y = y - y_pos;
+    int32_t delta_x = x;// - x_pos;
+    int32_t delta_y = y;// - y_pos;
 
     float slope = delta_y / delta_x;
+    float inv_slope = delta_x / delta_y;
     
-    uint8_t x_dir = (x > 0) ? CLOCKWISE : COUNTERCLOCKWISE;
+    uint8_t x_dir = (x > 0) ? COUNTERCLOCKWISE : CLOCKWISE;
     uint8_t y_dir = (y > 0) ? CLOCKWISE : COUNTERCLOCKWISE;
 
-    if (slope > 1) {
-        // dy is bigger
-        for (uint32_t i = 0; i < delta_y; i++) {
-            if (!STOP_Y) {
-                stepper_step(y_dir, &stepper_y);
-            }
+    vTaskSuspendAll();
 
-            if ((i % (int)round(slope) == 0) && (i < abs(delta_x)) && (!STOP_X)) {
+    if (delta_y == 0) {
+        uart_puts(USART1, "Just move X\n");
+        // Just move X
+        for (int32_t i = 0; i < abs(delta_x); i++) {
+            // if (!STOP_X) {
+                stepper_step(x_dir, &stepper_x);
+                uart_puts(USART1, "\b\b");
+            // }
+        }
+    } else if (delta_x == 0) {
+        uart_puts(USART1, "Just move Y\n");
+        // Just move Y
+        for (int32_t i = 0; i < abs(delta_y); i++) {
+            // if (!STOP_Y) {
+                stepper_step(y_dir, &stepper_y);
+                uart_puts(USART1, "\b");
+            // }
+        }
+    } else if (slope > 0) {
+        // Y is bigger
+        for (int32_t i = 0; i < abs(delta_y); i++) {
+            stepper_step(y_dir, &stepper_y);
+
+            if (i % (int)slope == 0) {
                 stepper_step(x_dir, &stepper_x);
             }
+            uart_puts(USART1, "\b");
         }
     } else {
-        // dx is bigger
-        float slope_inv = delta_x / delta_y;
+        // X is bigger
+        for (int32_t i = 0; i < abs(delta_x); i++) {
+            stepper_step(x_dir, &stepper_x);
 
-        for (uint32_t i = 0; i < delta_x; i++) {
-            if (!STOP_Y) {
+            if (i % (int)inv_slope == 0) {
                 stepper_step(y_dir, &stepper_y);
             }
 
-            if ((i % (int)round(slope_inv) == 0) && (i < abs(delta_y)) && (!STOP_X)) {
-                stepper_step(x_dir, &stepper_x);
-            }
+            uart_puts(USART1, "\b");
         }
     }
+
+    xTaskResumeAll();
 }
 
 void move_z_axis(int32_t z) {

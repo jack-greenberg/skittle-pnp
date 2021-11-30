@@ -124,7 +124,7 @@ void task_gcode(void *args __attribute__((unused))) {
         } else {
             uart_puts(USART1, "Parse successful\n");
             // TODO handle queue full
-            xQueueSend(command_queue, (void *)&cmd, 0);
+            xQueueSend(command_queue, (void *)&cmd, portMAX_DELAY);
         }
 
         memset(gcode, 0, 64);
@@ -203,10 +203,10 @@ static void gpio_setup(void) {
     gpio_set_mode(limit_x.port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, limit_x.pin);
     gpio_set_mode(limit_y.port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, limit_y.pin);
 
-    gpio_set_mode(stepper_x.step_port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_x.step_pin);
-    gpio_set_mode(stepper_y.step_port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_y.step_pin);
-    gpio_set_mode(stepper_x.dir_port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_x.dir_pin);
-    gpio_set_mode(stepper_y.dir_port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_y.dir_pin);
+    gpio_set_mode(stepper_x.step_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_x.step_pin);
+    gpio_set_mode(stepper_y.step_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_y.step_pin);
+    gpio_set_mode(stepper_x.dir_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_x.dir_pin);
+    gpio_set_mode(stepper_y.dir_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_y.dir_pin);
 
     gpio_clear(stepper_x.step_port, stepper_x.step_pin);
     gpio_clear(stepper_y.step_port, stepper_y.step_pin);
@@ -253,8 +253,8 @@ int main(void) {
     raw_gcode_buffer = xMessageBufferCreate(64);
     command_queue = xQueueCreate(1, sizeof(gcode_command_s));
 
-    xTaskCreate(task_gcode, "gcode", 100, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(task_uart, "uart", 100, NULL, configMAX_PRIORITIES - 1, NULL);
+    xTaskCreate(task_gcode, "gcode", 100, NULL, configMAX_PRIORITIES - 2, NULL);
+    xTaskCreate(task_uart, "uart", 100, NULL, configMAX_PRIORITIES - 2, NULL);
     // xTaskCreate(task_shell, "shell", 100, NULL, configMAX_PRIORITIES - 3, NULL);
     // xTaskCreate(task_ui, "ui", 100, NULL, configMAX_PRIORITIES - 1, NULL);
     xTaskCreate(task_motion, "motion", 100, NULL, configMAX_PRIORITIES - 1, NULL);
