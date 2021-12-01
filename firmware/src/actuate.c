@@ -6,6 +6,8 @@
 #include <task.h>
 
 #include <libopencm3/stm32/gpio.h>
+#include <libopencm3/stm32/exti.h>
+#include <libopencm3/cm3/nvic.h>
 #include <libopencm3/stm32/timer.h>
 #include <libopencm3/stm32/usart.h>
 #include <math.h>
@@ -34,12 +36,14 @@ void exti4_isr(void) {
     // Limit x
     STOP_X = true;
     x_pos = 0;
+    exti_reset_request(EXTI4);
 }
 
-void exti5_isr(void) {
+void exti9_5_isr(void) {
     // Limit y
     STOP_Y = true;
     y_pos = 0;
+    exti_reset_request(EXTI5);
 }
 
 static void stepper_step(uint8_t dir, stepper_s* stepper) {
@@ -68,6 +72,8 @@ static void stepper_step(uint8_t dir, stepper_s* stepper) {
 
 void move_linear(int32_t x, int32_t y) {
     // For horizontal, move 
+    STOP_X = false;
+    STOP_Y = false;
     
     int32_t delta_x = x;// - x_pos;
     int32_t delta_y = y;// - y_pos;
@@ -78,50 +84,66 @@ void move_linear(int32_t x, int32_t y) {
     uint8_t x_dir = (x > 0) ? COUNTERCLOCKWISE : CLOCKWISE;
     uint8_t y_dir = (y > 0) ? CLOCKWISE : COUNTERCLOCKWISE;
 
-    vTaskSuspendAll();
+    // vTaskSuspendAll();
 
     if (delta_y == 0) {
         uart_puts(USART1, "Just move X\n");
         // Just move X
         for (int32_t i = 0; i < abs(delta_x); i++) {
-            // if (!STOP_X) {
-                stepper_step(x_dir, &stepper_x);
-                uart_puts(USART1, "\b\b");
-            // }
+            if (STOP_X) {
+                break;
+            }
+            stepper_step(x_dir, &stepper_x);
+            uart_puts(USART1, "\b\b");
         }
     } else if (delta_x == 0) {
         uart_puts(USART1, "Just move Y\n");
         // Just move Y
         for (int32_t i = 0; i < abs(delta_y); i++) {
-            // if (!STOP_Y) {
-                stepper_step(y_dir, &stepper_y);
-                uart_puts(USART1, "\b");
-            // }
+            if (STOP_Y) {
+                break;
+            }
+            stepper_step(y_dir, &stepper_y);
+            uart_puts(USART1, "\b");
         }
     } else if (slope > 0) {
         // Y is bigger
         for (int32_t i = 0; i < abs(delta_y); i++) {
-            stepper_step(y_dir, &stepper_y);
+            if (STOP_X && STOP_Y) {
+                break;
+            }
+
+            if (!STOP_Y) {
+                stepper_step(y_dir, &stepper_y);
+            }
 
             if (i % (int)slope == 0) {
-                stepper_step(x_dir, &stepper_x);
+                if (!STOP_X) {
+                    stepper_step(x_dir, &stepper_x);
+                }
             }
             uart_puts(USART1, "\b");
         }
     } else {
         // X is bigger
         for (int32_t i = 0; i < abs(delta_x); i++) {
-            stepper_step(x_dir, &stepper_x);
+            if (STOP_X && STOP_Y) {
+                break;
+            }
+
+            if (!STOP_X) {
+                stepper_step(x_dir, &stepper_x);
+            }
 
             if (i % (int)inv_slope == 0) {
-                stepper_step(y_dir, &stepper_y);
+                if (!STOP_Y) {
+                    stepper_step(y_dir, &stepper_y);
+                }
             }
 
             uart_puts(USART1, "\b");
         }
     }
-
-    xTaskResumeAll();
 }
 
 void move_z_axis(int32_t z) {

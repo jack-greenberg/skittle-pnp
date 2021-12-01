@@ -54,7 +54,6 @@ const pin_s limit_y = {
     .pin = GPIO5,
     .port = GPIOA,
 };
-
 // Queue for UART characters to be processed
 xQueueHandle uart1_queue;
 xQueueHandle uart2_queue;
@@ -200,9 +199,6 @@ static void usart_setup(int uart) {
 }
 
 static void gpio_setup(void) {
-    gpio_set_mode(limit_x.port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, limit_x.pin);
-    gpio_set_mode(limit_y.port, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_INPUT_FLOAT, limit_y.pin);
-
     gpio_set_mode(stepper_x.step_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_x.step_pin);
     gpio_set_mode(stepper_y.step_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_y.step_pin);
     gpio_set_mode(stepper_x.dir_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_x.dir_pin);
@@ -213,7 +209,9 @@ static void gpio_setup(void) {
     gpio_clear(stepper_x.dir_port, stepper_x.dir_pin);
     gpio_clear(stepper_y.dir_port, stepper_y.dir_pin);
 
-    // Enable exti0 interrupts, defined in actuate.c
+    gpio_set_mode(limit_x.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_x.pin);
+    gpio_set_mode(limit_y.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_y.pin);
+
     nvic_enable_irq(NVIC_EXTI4_IRQ);
     exti_select_source(EXTI4, limit_x.port);
 	exti_set_trigger(EXTI4, EXTI_TRIGGER_FALLING);
@@ -237,7 +235,6 @@ static void tim_setup(void) {
 int main(void) {
     rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
     rcc_periph_clock_enable(RCC_USART1);
-    // rcc_periph_clock_enable(RCC_USART2);
     rcc_periph_clock_enable(RCC_GPIOA);
     rcc_periph_clock_enable(RCC_GPIOB);
 
