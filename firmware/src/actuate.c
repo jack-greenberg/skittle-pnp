@@ -72,9 +72,7 @@ static void stepper_step(uint8_t dir, stepper_s* stepper) {
 
 void move_linear(int32_t x, int32_t y) {
     // For horizontal, move 
-    STOP_X = false;
-    STOP_Y = false;
-    
+
     int32_t delta_x = x;// - x_pos;
     int32_t delta_y = y;// - y_pos;
 
@@ -84,41 +82,32 @@ void move_linear(int32_t x, int32_t y) {
     uint8_t x_dir = (x > 0) ? COUNTERCLOCKWISE : CLOCKWISE;
     uint8_t y_dir = (y > 0) ? CLOCKWISE : COUNTERCLOCKWISE;
 
-    // vTaskSuspendAll();
-
     if (delta_y == 0) {
-        uart_puts(USART1, "Just move X\n");
         // Just move X
         for (int32_t i = 0; i < abs(delta_x); i++) {
-            if (STOP_X) {
-                break;
-            }
-            stepper_step(x_dir, &stepper_x);
-            uart_puts(USART1, "\b\b");
-        }
-    } else if (delta_x == 0) {
-        uart_puts(USART1, "Just move Y\n");
-        // Just move Y
-        for (int32_t i = 0; i < abs(delta_y); i++) {
-            if (STOP_Y) {
-                break;
-            }
-            stepper_step(y_dir, &stepper_y);
-            uart_puts(USART1, "\b");
-        }
-    } else if (slope > 0) {
-        // Y is bigger
-        for (int32_t i = 0; i < abs(delta_y); i++) {
-            if (STOP_X && STOP_Y) {
-                break;
+            if (gpio_get(limit_x.port, limit_x.pin) || (x > 0)) {
+                stepper_step(x_dir, &stepper_x);
             }
 
-            if (!STOP_Y) {
+            uart_puts(USART1, "\b");
+        }
+    } else if (delta_x == 0) {
+        // Just move Y
+        for (int32_t i = 0; i < abs(delta_y); i++) {
+            if (gpio_get(limit_y.port, limit_y.pin) || (y > 0)) {
+                stepper_step(y_dir, &stepper_y);
+            }
+            uart_puts(USART1, "\b");
+        }
+    } else if (slope >= 1) {
+        // Y is bigger
+        for (int32_t i = 0; i < abs(delta_y); i++) {
+            if (gpio_get(limit_y.port, limit_y.pin) || (y > 0)) {
                 stepper_step(y_dir, &stepper_y);
             }
 
             if (i % (int)slope == 0) {
-                if (!STOP_X) {
+                if (gpio_get(limit_x.port, limit_x.pin) || (y > 0)) {
                     stepper_step(x_dir, &stepper_x);
                 }
             }
@@ -127,16 +116,12 @@ void move_linear(int32_t x, int32_t y) {
     } else {
         // X is bigger
         for (int32_t i = 0; i < abs(delta_x); i++) {
-            if (STOP_X && STOP_Y) {
-                break;
-            }
-
-            if (!STOP_X) {
+            if (gpio_get(limit_x.port, limit_x.pin) || (x > 0)) {
                 stepper_step(x_dir, &stepper_x);
             }
 
             if (i % (int)inv_slope == 0) {
-                if (!STOP_Y) {
+                if (gpio_get(limit_y.port, limit_y.pin) || (y > 0)) {
                     stepper_step(y_dir, &stepper_y);
                 }
             }
@@ -146,8 +131,38 @@ void move_linear(int32_t x, int32_t y) {
     }
 }
 
-void move_z_axis(int32_t z) {
+void move_home(bool x, bool y, bool z) {
+    // if (z) {
+    //     move_z_axis(0);
+    // }
 
+    bool stop_x = false;
+    bool stop_y = false;
+
+    while (true) {
+        if (gpio_get(limit_x.port, limit_x.pin)) {
+            stepper_step(CLOCKWISE, &stepper_x);
+        } else {
+            stop_x = true;
+        }
+
+        if (gpio_get(limit_y.port, limit_y.pin)) {
+            stepper_step(COUNTERCLOCKWISE, &stepper_y);
+        } else {
+            stop_y = true;
+        }
+
+        if (stop_x && stop_y) {
+            break;
+        }
+
+        uart_puts(USART1, "\b");
+    }
+}
+
+void move_z_axis(int32_t z) {
+    timer_set_oc_value(TIM3, TIM_OC3, z);
+    timer_enable_oc_output(TIM3, TIM_OC3);
 }
 
 void actuate_solenoid(bool closed) {

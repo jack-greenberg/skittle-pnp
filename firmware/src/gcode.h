@@ -10,6 +10,7 @@
 
 typedef enum {
     G01,
+    G28,
     M400,
     M401,
 } gcode_command_type_e;
@@ -23,6 +24,11 @@ typedef struct {
             int32_t y;
             int32_t z;
         } g01;
+        struct G28_args_s {
+            bool x;
+            bool y;
+            bool z;
+        } g28;
         struct M400_args_s {
             // Empty
         } m400;

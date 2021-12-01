@@ -144,8 +144,11 @@ void task_motion(void *args __attribute__((unused))) {
 
         switch (cmd.type) {
             case G01: {
-                move_linear(cmd.g01.x, cmd.g01.y);
                 move_z_axis(cmd.g01.z);
+                move_linear(cmd.g01.x, cmd.g01.y);
+            } break;
+            case G28: {
+                move_home(cmd.g28.x, cmd.g28.y, cmd.g28.z);
             } break;
             case M400: {
                 actuate_solenoid(false);
@@ -199,6 +202,9 @@ static void usart_setup(int uart) {
 }
 
 static void gpio_setup(void) {
+    /*
+     * Steppers
+     */
     gpio_set_mode(stepper_x.step_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_x.step_pin);
     gpio_set_mode(stepper_y.step_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_y.step_pin);
     gpio_set_mode(stepper_x.dir_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_x.dir_pin);
@@ -209,6 +215,9 @@ static void gpio_setup(void) {
     gpio_clear(stepper_x.dir_port, stepper_x.dir_pin);
     gpio_clear(stepper_y.dir_port, stepper_y.dir_pin);
 
+    /*
+     * Limit switches
+     */
     gpio_set_mode(limit_x.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_x.pin);
     gpio_set_mode(limit_y.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_y.pin);
 
@@ -221,6 +230,30 @@ static void gpio_setup(void) {
     exti_select_source(EXTI5, limit_y.port);
 	exti_set_trigger(EXTI5, EXTI_TRIGGER_FALLING);
 	exti_enable_request(EXTI5);
+
+    /*
+     * Servo
+     */
+    
+	gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_50_MHZ,
+		      GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,
+		      GPIO_TIM3_CH3);
+
+    timer_set_mode(TIM3, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_EDGE, TIM_CR1_DIR_UP);
+	timer_set_repetition_counter(TIM3, 0);
+    timer_set_prescaler(TIM3, (rcc_apb1_frequency/48000)/2*2);
+    timer_set_period(TIM3, 48000);
+
+    rcc_periph_clock_enable(RCC_TIM3);
+
+    timer_disable_oc_output(TIM3, TIM_OC3);
+
+    timer_set_oc_mode(TIM3, TIM_OC3, TIM_OCM_PWM1);
+    timer_enable_oc_preload(TIM3, TIM_OC3);
+    timer_set_oc_value(TIM3, TIM_OC3, 0);
+    timer_enable_oc_output(TIM3, TIM_OC3);
+    timer_enable_preload(TIM3);
+	timer_continuous_mode(TIM3);
 }
 
 static void tim_setup(void) {

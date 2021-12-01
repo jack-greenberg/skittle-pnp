@@ -18,6 +18,11 @@ typedef struct {
 void move_linear(int32_t x, int32_t y);
 
 /*
+ * Moves to 0,0 as fast as possible until limit switches are hit
+ */
+void move_home(bool x, bool y, bool z);
+
+/*
  * Moves the Z axis servo motor
  */
 void move_z_axis(int32_t z);
