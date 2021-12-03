@@ -8,6 +8,8 @@ file(GLOB C_SOURCE
     gcode.c
     serial.c
     actuate.c
+    pwm.c
+    servo.c
 )
 
 set_source_files_properties(${C_SOURCE}

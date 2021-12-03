@@ -1,6 +1,7 @@
 #include "actuate.h"
 #include "bsp.h"
 #include "serial.h"
+#include "servo.h"
 
 #include <FreeRTOS.h>
 #include <task.h>
@@ -12,8 +13,6 @@
 #include <libopencm3/stm32/usart.h>
 #include <math.h>
 #include <stdlib.h>
-
-#define max(X, Y) (((X) > (Y)) ? (X) : (Y))
 
 #define CLOCKWISE (0)
 #define COUNTERCLOCKWISE (1)
@@ -97,7 +96,7 @@ void move_linear(int32_t x, int32_t y) {
             if (gpio_get(limit_y.port, limit_y.pin) || (y > 0)) {
                 stepper_step(y_dir, &stepper_y);
             }
-            uart_puts(USART1, "\b");
+            uart_puts(USART1, "\b\b");
         }
     } else if (slope >= 1) {
         // Y is bigger
@@ -111,7 +110,7 @@ void move_linear(int32_t x, int32_t y) {
                     stepper_step(x_dir, &stepper_x);
                 }
             }
-            uart_puts(USART1, "\b");
+            uart_puts(USART1, "\b\b");
         }
     } else {
         // X is bigger
@@ -126,15 +125,15 @@ void move_linear(int32_t x, int32_t y) {
                 }
             }
 
-            uart_puts(USART1, "\b");
+            uart_puts(USART1, "\b\b");
         }
     }
 }
 
 void move_home(bool x, bool y, bool z) {
-    // if (z) {
-    //     move_z_axis(0);
-    // }
+    if (z) {
+        move_z_axis(950);
+    }
 
     bool stop_x = false;
     bool stop_y = false;
@@ -156,13 +155,14 @@ void move_home(bool x, bool y, bool z) {
             break;
         }
 
-        uart_puts(USART1, "\b");
+        uart_puts(USART1, "\b\b");
     }
 }
 
 void move_z_axis(int32_t z) {
-    timer_set_oc_value(TIM3, TIM_OC3, z);
-    timer_enable_oc_output(TIM3, TIM_OC3);
+    // timer_set_oc_value(TIM3, TIM_OC3, z);
+    servo_set_position(SERVO_CH1, z);
+    // timer_enable_oc_output(TIM2, TIM_OC3);
 }
 
 void actuate_solenoid(bool closed) {

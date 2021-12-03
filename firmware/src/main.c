@@ -18,6 +18,7 @@
 #include "serial.h"
 #include "actuate.h"
 #include "bsp.h"
+#include "servo.h"
 
 const stepper_s stepper_x = {
     // TODO
@@ -98,20 +99,14 @@ void task_gcode(void *args __attribute__((unused))) {
     int rc = 0;
 
     for (;;) {
-        char gcode[64];
+        char gcode[64] = {0};
 
         size_t len = xMessageBufferReceive(raw_gcode_buffer, &gcode, 64, portMAX_DELAY);
 
         xMessageBufferReset(raw_gcode_buffer);
 
-        uart_puts(USART1, "Received in GCode processor\n");
-        uart_puts(USART1, gcode);
-        uart_putc(USART1, '\n');
-
-        (void)len;
-
         // decode
-        gcode_command_s cmd;
+        gcode_command_s cmd = {0};
         rc = gcode_parse(gcode, len, &cmd);
 
         if (rc == GCODE_PARSE_UNKNOWN) {
@@ -135,12 +130,10 @@ void task_ui(void *args __attribute__((unused))) {
 }
 
 void task_motion(void *args __attribute__((unused))) {
-    gcode_command_s cmd;
+    gcode_command_s cmd = {0};
 
     for (;;) {
         xQueueReceive(command_queue, &cmd, portMAX_DELAY);
-
-        uart_puts(USART1, "Got command\n");
 
         switch (cmd.type) {
             case G01: {
@@ -223,46 +216,53 @@ static void gpio_setup(void) {
 
     nvic_enable_irq(NVIC_EXTI4_IRQ);
     exti_select_source(EXTI4, limit_x.port);
-	exti_set_trigger(EXTI4, EXTI_TRIGGER_FALLING);
-	exti_enable_request(EXTI4);
+    exti_set_trigger(EXTI4, EXTI_TRIGGER_FALLING);
+    exti_enable_request(EXTI4);
 
     nvic_enable_irq(NVIC_EXTI9_5_IRQ);
     exti_select_source(EXTI5, limit_y.port);
-	exti_set_trigger(EXTI5, EXTI_TRIGGER_FALLING);
-	exti_enable_request(EXTI5);
+    exti_set_trigger(EXTI5, EXTI_TRIGGER_FALLING);
+    exti_enable_request(EXTI5);
 
     /*
      * Servo
      */
-    
-	gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_50_MHZ,
-		      GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,
-		      GPIO_TIM3_CH3);
-
-    timer_set_mode(TIM3, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_EDGE, TIM_CR1_DIR_UP);
-	timer_set_repetition_counter(TIM3, 0);
-    timer_set_prescaler(TIM3, (rcc_apb1_frequency/48000)/2*2);
-    timer_set_period(TIM3, 48000);
-
-    rcc_periph_clock_enable(RCC_TIM3);
-
-    timer_disable_oc_output(TIM3, TIM_OC3);
-
-    timer_set_oc_mode(TIM3, TIM_OC3, TIM_OCM_PWM1);
-    timer_enable_oc_preload(TIM3, TIM_OC3);
-    timer_set_oc_value(TIM3, TIM_OC3, 0);
-    timer_enable_oc_output(TIM3, TIM_OC3);
-    timer_enable_preload(TIM3);
-	timer_continuous_mode(TIM3);
+//     rcc_periph_clock_enable(RCC_TIM3);
+// 
+//     timer_set_mode(TIM3, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_EDGE, TIM_CR1_DIR_UP);
+// 
+//     timer_set_prescaler(TIM3, 72);
+//     timer_set_repetition_counter(TIM3, 0);
+//     timer_enable_preload(TIM3);
+//     timer_continuous_mode(TIM3);
+//     timer_set_period(TIM3, 20000);
+// 
+//     /*
+//      * Init output channel
+//      */
+//     // gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_50_MHZ,
+//     //        GPIO_CNF_OUTPUT_PUSHPULL,
+//     //        GPIO_TIM3_CH3);
+// 
+//     gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_50_MHZ,
+//                    GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,
+//                    GPIO_TIM3_CH3);
+// 
+//     timer_disable_oc_output(TIM3, TIM_OC3);
+//     timer_set_oc_mode(TIM3, TIM_OC3, TIM_OCM_PWM1);
+//     timer_set_oc_value(TIM3, TIM_OC3, 0);
+//     timer_enable_oc_output(TIM3, TIM_OC3);
+// 
+//     timer_enable_counter(TIM3);
 }
 
 static void tim_setup(void) {
     /* set up a microsecond free running timer for delay */
-	rcc_periph_clock_enable(RCC_TIM6);
-	/* microsecond counter */
-	timer_set_prescaler(TIM6, rcc_apb1_frequency / 1000000 - 1);
-	timer_set_period(TIM6, 0xffff);
-	timer_one_shot_mode(TIM6);
+    rcc_periph_clock_enable(RCC_TIM6);
+    /* microsecond counter */
+    timer_set_prescaler(TIM6, rcc_apb1_frequency / 1000000 - 1);
+    timer_set_period(TIM6, 0xffff);
+    timer_one_shot_mode(TIM6);
 }
 
 int main(void) {
@@ -274,6 +274,9 @@ int main(void) {
     gpio_setup();
     usart_setup(USART1);
     tim_setup();
+
+    servo_init();
+    servo_set_position(SERVO_CH1, 950);
 
     /*
      * Synchronization
