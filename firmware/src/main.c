@@ -18,54 +18,19 @@
 #include "serial.h"
 #include "actuate.h"
 #include "bsp.h"
+#include "stepper.h"
 #include "servo.h"
 
-const stepper_s stepper_x = {
-    // TODO
-    .step_pin = GPIO13,
-    .step_port = GPIOB,
-    .dir_pin = GPIO12,
-    .dir_port = GPIOB,
-};
-
-const stepper_s stepper_y = {
-    // TODO
-    .step_pin = GPIO15,
-    .step_port = GPIOB,
-    .dir_pin = GPIO14,
-    .dir_port = GPIOB,
-};
-
-const pin_s servo = {
-    .pin = GPIO0,
-    .port = GPIOB,
-};
-
-const pin_s solenoid = {
-    .pin = GPIO1,
-    .port = GPIOB,
-};
-
-const pin_s limit_x = {
-    .pin = GPIO4,
-    .port = GPIOA,
-};
-
-const pin_s limit_y = {
-    .pin = GPIO5,
-    .port = GPIOA,
-};
 // Queue for UART characters to be processed
-xQueueHandle uart1_queue;
 xQueueHandle uart2_queue;
 MessageBufferHandle_t raw_gcode_buffer;
 xQueueHandle command_queue;
 
-void usart1_isr(void) {
+void usart2_isr(void) {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    char c = usart_recv(USART1);
+    char c = usart_recv(USART2);
 
-    xQueueSendFromISR(uart1_queue, &c, &xHigherPriorityTaskWoken);
+    xQueueSendFromISR(uart2_queue, &c, &xHigherPriorityTaskWoken);
 }
 
 void task_uart(void *args __attribute__((unused))) {
@@ -75,18 +40,18 @@ void task_uart(void *args __attribute__((unused))) {
 
     for (;;) {
         // Block until UART received
-        xQueueReceive(uart1_queue, &c, portMAX_DELAY);
-        uart_putc(USART1, c);
+        xQueueReceive(uart2_queue, &c, portMAX_DELAY);
+        uart_putc(USART2, c);
 
         if (c != '\r') {
             uart_buffer[uart_buffer_length] = c;
             uart_buffer_length++;
         } else {
-            uart_putc(USART1, '\n');
+            uart_putc(USART2, '\n');
             // c == '\n'
             uart_buffer[uart_buffer_length] = '\0';
             uart_buffer_length++;
-            uart_puts(USART1, "Sent to GCode processor\n");
+            uart_puts(USART2, "Sent to GCode processor\n");
             xMessageBufferSend(raw_gcode_buffer, &uart_buffer,
                                uart_buffer_length, 0);
 
@@ -110,13 +75,13 @@ void task_gcode(void *args __attribute__((unused))) {
         rc = gcode_parse(gcode, len, &cmd);
 
         if (rc == GCODE_PARSE_UNKNOWN) {
-            uart_puts(USART1, "Parse unknown\n");
+            uart_puts(USART2, "Parse unknown\n");
             // handle error
         } else if (rc == GCODE_PARSE_ERROR) {
-            uart_puts(USART1, "Parse error\n");
+            uart_puts(USART2, "Parse error\n");
             // handle error
         } else {
-            uart_puts(USART1, "Parse successful\n");
+            uart_puts(USART2, "Parse successful\n");
             // TODO handle queue full
             xQueueSend(command_queue, (void *)&cmd, portMAX_DELAY);
         }
@@ -151,7 +116,7 @@ void task_motion(void *args __attribute__((unused))) {
             } break;
         }
 
-        uart_puts(USART1, "ok\n");
+        uart_puts(USART2, "ok\n");
     }
 }
 
@@ -167,9 +132,6 @@ void task_blink(void *args) {
 static void usart_setup(int uart) {
     gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,
                   GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART2_TX);
-
-    gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ,
-                  GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART1_TX);
 
     usart_set_baudrate(uart, 9600);
     usart_set_databits(uart, 8);
@@ -194,101 +156,66 @@ static void usart_setup(int uart) {
     usart_enable(uart);
 }
 
-static void gpio_setup(void) {
-    /*
-     * Steppers
-     */
-    gpio_set_mode(stepper_x.step_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_x.step_pin);
-    gpio_set_mode(stepper_y.step_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_y.step_pin);
-    gpio_set_mode(stepper_x.dir_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_x.dir_pin);
-    gpio_set_mode(stepper_y.dir_port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper_y.dir_pin);
-
-    gpio_clear(stepper_x.step_port, stepper_x.step_pin);
-    gpio_clear(stepper_y.step_port, stepper_y.step_pin);
-    gpio_clear(stepper_x.dir_port, stepper_x.dir_pin);
-    gpio_clear(stepper_y.dir_port, stepper_y.dir_pin);
-
-    /*
-     * Limit switches
-     */
-    gpio_set_mode(limit_x.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_x.pin);
-    gpio_set_mode(limit_y.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_y.pin);
-
-    nvic_enable_irq(NVIC_EXTI4_IRQ);
-    exti_select_source(EXTI4, limit_x.port);
-    exti_set_trigger(EXTI4, EXTI_TRIGGER_FALLING);
-    exti_enable_request(EXTI4);
-
-    nvic_enable_irq(NVIC_EXTI9_5_IRQ);
-    exti_select_source(EXTI5, limit_y.port);
-    exti_set_trigger(EXTI5, EXTI_TRIGGER_FALLING);
-    exti_enable_request(EXTI5);
-
-    /*
-     * Servo
-     */
-//     rcc_periph_clock_enable(RCC_TIM3);
+static void limit_setup(void) {
+//     nvic_enable_irq(NVIC_EXTI15_10_IRQ);
+//     nvic_enable_irq(NVIC_EXTI9_5_IRQ);
 // 
-//     timer_set_mode(TIM3, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_EDGE, TIM_CR1_DIR_UP);
-// 
-//     timer_set_prescaler(TIM3, 72);
-//     timer_set_repetition_counter(TIM3, 0);
-//     timer_enable_preload(TIM3);
-//     timer_continuous_mode(TIM3);
-//     timer_set_period(TIM3, 20000);
-// 
-//     /*
-//      * Init output channel
-//      */
-//     // gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_50_MHZ,
-//     //        GPIO_CNF_OUTPUT_PUSHPULL,
-//     //        GPIO_TIM3_CH3);
-// 
-//     gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_50_MHZ,
-//                    GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,
-//                    GPIO_TIM3_CH3);
-// 
-//     timer_disable_oc_output(TIM3, TIM_OC3);
-//     timer_set_oc_mode(TIM3, TIM_OC3, TIM_OCM_PWM1);
-//     timer_set_oc_value(TIM3, TIM_OC3, 0);
-//     timer_enable_oc_output(TIM3, TIM_OC3);
-// 
-//     timer_enable_counter(TIM3);
-}
+    gpio_set_mode(limit_x_min.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_x_min.pin);
+    exti_select_source(LIMIT_X_MIN_IRQ, limit_x_min.port);
+    exti_set_trigger(LIMIT_X_MIN_IRQ, EXTI_TRIGGER_FALLING);
+    exti_enable_request(LIMIT_X_MIN_IRQ);
 
-static void tim_setup(void) {
-    /* set up a microsecond free running timer for delay */
-    rcc_periph_clock_enable(RCC_TIM6);
-    /* microsecond counter */
-    timer_set_prescaler(TIM6, rcc_apb1_frequency / 1000000 - 1);
-    timer_set_period(TIM6, 0xffff);
-    timer_one_shot_mode(TIM6);
+    gpio_set_mode(limit_y_min.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_y_min.pin);
+    exti_select_source(LIMIT_Y_MIN_IRQ, limit_y_min.port);
+    exti_set_trigger(LIMIT_Y_MIN_IRQ, EXTI_TRIGGER_FALLING);
+    exti_enable_request(LIMIT_Y_MIN_IRQ);
+
+    gpio_set_mode(limit_x_max.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_x_max.pin);
+    exti_select_source(LIMIT_X_MAX_IRQ, limit_x_max.port);
+    exti_set_trigger(LIMIT_X_MAX_IRQ, EXTI_TRIGGER_FALLING);
+    exti_enable_request(LIMIT_X_MAX_IRQ);
+
+    gpio_set_mode(limit_y_max.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_y_max.pin);
+    exti_select_source(LIMIT_Y_MAX_IRQ, limit_y_max.port);
+    exti_set_trigger(LIMIT_Y_MAX_IRQ, EXTI_TRIGGER_FALLING);
+    exti_enable_request(LIMIT_Y_MAX_IRQ);
 }
 
 int main(void) {
     rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
-    rcc_periph_clock_enable(RCC_USART1);
+    rcc_periph_clock_enable(RCC_USART2);
     rcc_periph_clock_enable(RCC_GPIOA);
     rcc_periph_clock_enable(RCC_GPIOB);
 
-    gpio_setup();
-    usart_setup(USART1);
-    tim_setup();
+    limit_setup();
+    usart_setup(USART2);
 
+    /*
+     * Steppers
+     */
+    stepper_init(stepper_x);
+    stepper_init(stepper_y);
+
+    /*
+     * Servo
+     */
     servo_init();
-    servo_set_position(SERVO_CH1, 950);
+    servo_set_position(SERVO_TIM_OC, SERVO_MIN);
+
+    /*
+     * Valve
+     */
+    gpio_set_mode(solenoid.port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, solenoid.pin);
 
     /*
      * Synchronization
      */
-    uart1_queue = xQueueCreate(1, sizeof(char));
     uart2_queue = xQueueCreate(1, sizeof(char));
     raw_gcode_buffer = xMessageBufferCreate(64);
     command_queue = xQueueCreate(1, sizeof(gcode_command_s));
 
     xTaskCreate(task_gcode, "gcode", 100, NULL, configMAX_PRIORITIES - 2, NULL);
     xTaskCreate(task_uart, "uart", 100, NULL, configMAX_PRIORITIES - 2, NULL);
-    // xTaskCreate(task_shell, "shell", 100, NULL, configMAX_PRIORITIES - 3, NULL);
     // xTaskCreate(task_ui, "ui", 100, NULL, configMAX_PRIORITIES - 1, NULL);
     xTaskCreate(task_motion, "motion", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 

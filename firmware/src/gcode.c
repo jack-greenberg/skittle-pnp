@@ -1,4 +1,5 @@
 #include "gcode.h"
+
 #include <string.h>
 
 static int parse_Gxx(char* raw, size_t len, gcode_command_s* cmd) {

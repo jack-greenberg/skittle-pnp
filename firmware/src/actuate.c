@@ -2,6 +2,8 @@
 #include "bsp.h"
 #include "serial.h"
 #include "servo.h"
+#include "stepper.h"
+#include "util.h"
 
 #include <FreeRTOS.h>
 #include <task.h>
@@ -14,9 +16,10 @@
 #include <math.h>
 #include <stdlib.h>
 
-#define CLOCKWISE (0)
-#define COUNTERCLOCKWISE (1)
-#define STEP_DELAY (500)
+enum Pos {
+    MIN,
+    MAX,
+} x_extreme, y_extreme;
 
 static volatile int32_t x_pos;
 static volatile int32_t y_pos;
@@ -24,50 +27,27 @@ static volatile int32_t y_pos;
 static volatile bool STOP_X = false;
 static volatile bool STOP_Y = false;
 
-extern stepper_s stepper_x;
-extern stepper_s stepper_y;
-extern pin_s servo;
-extern pin_s solenoid;
-extern pin_s limit_x;
-extern pin_s limit_y;
-
-void exti4_isr(void) {
-    // Limit x
-    STOP_X = true;
-    x_pos = 0;
-    exti_reset_request(EXTI4);
-}
-
 void exti9_5_isr(void) {
-    // Limit y
-    STOP_Y = true;
-    y_pos = 0;
-    exti_reset_request(EXTI5);
+    STOP_X = true;
 }
 
-static void stepper_step(uint8_t dir, stepper_s* stepper) {
-    if (dir == CLOCKWISE) {
-        gpio_set(stepper->dir_port, stepper->dir_pin);
-    } else {
-        gpio_clear(stepper->dir_port, stepper->dir_pin);
-    }
-    
-    TIM_ARR(TIM6) = 500;
-    TIM_EGR(TIM6) = TIM_EGR_UG;
-    TIM_CR1(TIM6) |= TIM_CR1_CEN;
-    timer_enable_counter(TIM6);
-    while (TIM_CR1(TIM6) & TIM_CR1_CEN);
+// void exti15_10_isr(void) {
+//     STOP_Y = true;
+// }
 
-    gpio_set(stepper->step_port, stepper->step_pin);
-
-    TIM_ARR(TIM6) = 500;
-    TIM_EGR(TIM6) = TIM_EGR_UG;
-    TIM_CR1(TIM6) |= TIM_CR1_CEN;
-    timer_enable_counter(TIM6);
-    while (TIM_CR1(TIM6) & TIM_CR1_CEN);
-
-    gpio_clear(stepper->step_port, stepper->step_pin);
-}
+// void exti4_isr(void) {
+//     // Limit x
+//     STOP_X = true;
+//     x_pos = 0;
+//     exti_reset_request(EXTI4);
+// }
+// 
+// void exti9_5_isr(void) {
+//     // Limit y
+//     STOP_Y = true;
+//     y_pos = 0;
+//     exti_reset_request(EXTI5);
+// }
 
 void move_linear(int32_t x, int32_t y) {
     // For horizontal, move 
@@ -84,48 +64,42 @@ void move_linear(int32_t x, int32_t y) {
     if (delta_y == 0) {
         // Just move X
         for (int32_t i = 0; i < abs(delta_x); i++) {
-            if (gpio_get(limit_x.port, limit_x.pin) || (x > 0)) {
-                stepper_step(x_dir, &stepper_x);
+            if (gpio_get(limit_x_min.port, limit_x_min.pin) || (x > 0)) {
+                stepper_step(stepper_x, x_dir);
             }
-
-            uart_puts(USART1, "\b");
         }
     } else if (delta_x == 0) {
         // Just move Y
         for (int32_t i = 0; i < abs(delta_y); i++) {
-            if (gpio_get(limit_y.port, limit_y.pin) || (y > 0)) {
-                stepper_step(y_dir, &stepper_y);
+            if (gpio_get(limit_y_min.port, limit_y_min.pin) || (y > 0)) {
+                stepper_step(stepper_y, y_dir);
             }
-            uart_puts(USART1, "\b\b");
         }
     } else if (slope >= 1) {
         // Y is bigger
         for (int32_t i = 0; i < abs(delta_y); i++) {
-            if (gpio_get(limit_y.port, limit_y.pin) || (y > 0)) {
-                stepper_step(y_dir, &stepper_y);
+            if (gpio_get(limit_y_min.port, limit_y_min.pin) || (y > 0)) {
+                stepper_step(stepper_y, y_dir);
             }
 
             if (i % (int)slope == 0) {
-                if (gpio_get(limit_x.port, limit_x.pin) || (y > 0)) {
-                    stepper_step(x_dir, &stepper_x);
+                if (gpio_get(limit_x_min.port, limit_x_min.pin) || (y > 0)) {
+                    stepper_step(stepper_x, x_dir);
                 }
             }
-            uart_puts(USART1, "\b\b");
         }
     } else {
         // X is bigger
         for (int32_t i = 0; i < abs(delta_x); i++) {
-            if (gpio_get(limit_x.port, limit_x.pin) || (x > 0)) {
-                stepper_step(x_dir, &stepper_x);
+            if (gpio_get(limit_x_min.port, limit_x_min.pin) || (x > 0)) {
+                stepper_step(stepper_x, x_dir);
             }
 
             if (i % (int)inv_slope == 0) {
-                if (gpio_get(limit_y.port, limit_y.pin) || (y > 0)) {
-                    stepper_step(y_dir, &stepper_y);
+                if (gpio_get(limit_y_min.port, limit_y_min.pin) || (y > 0)) {
+                    stepper_step(stepper_y, y_dir);
                 }
             }
-
-            uart_puts(USART1, "\b\b");
         }
     }
 }
@@ -139,14 +113,14 @@ void move_home(bool x, bool y, bool z) {
     bool stop_y = false;
 
     while (true) {
-        if (gpio_get(limit_x.port, limit_x.pin)) {
-            stepper_step(CLOCKWISE, &stepper_x);
+        if (gpio_get(limit_x_min.port, limit_x_min.pin)) {
+            stepper_step(stepper_x, CLOCKWISE);
         } else {
             stop_x = true;
         }
 
-        if (gpio_get(limit_y.port, limit_y.pin)) {
-            stepper_step(COUNTERCLOCKWISE, &stepper_y);
+        if (gpio_get(limit_y_min.port, limit_y_min.pin)) {
+            stepper_step(stepper_y, COUNTERCLOCKWISE);
         } else {
             stop_y = true;
         }
@@ -154,15 +128,20 @@ void move_home(bool x, bool y, bool z) {
         if (stop_x && stop_y) {
             break;
         }
-
-        uart_puts(USART1, "\b\b");
     }
 }
 
 void move_z_axis(int32_t z) {
-    // timer_set_oc_value(TIM3, TIM_OC3, z);
-    servo_set_position(SERVO_CH1, z);
-    // timer_enable_oc_output(TIM2, TIM_OC3);
+    // Enforce bounds
+    if (z < SERVO_MIN) {
+        z = SERVO_MIN;
+    }
+
+    if (z > SERVO_MAX) {
+        z = SERVO_MAX;
+    }
+
+    servo_set_position(SERVO_TIM_OC, z);
 }
 
 void actuate_solenoid(bool closed) {

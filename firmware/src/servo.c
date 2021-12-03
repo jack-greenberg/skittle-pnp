@@ -23,23 +23,23 @@
 
 #include "pwm.h"
 #include "servo.h"
+#include "bsp.h"
 
 void servo_init(void)
 {
      /* init timer2 with a period of 20ms */
-     pwm_init_timer(&RCC_APB1ENR, RCC_APB1ENR_TIM2EN, TIM2, PWM_PRESCALE, PWM_PERIOD);
+     pwm_init_timer(&RCC_APB1ENR, RCC_APB1ENR_TIM3EN, SERVO_TIM, PWM_PRESCALE, PWM_PERIOD);
 
      /* init output of channel2 of timer2 */
-     pwm_init_output_channel(TIM2, SERVO_CH1, &RCC_APB2ENR, RCC_APB2ENR_IOPAEN, GPIOA, GPIO_TIM2_CH3);
+     pwm_init_output_channel(SERVO_TIM, SERVO_TIM_OC, &RCC_APB2ENR, RCC_APB2ENR_IOPAEN, SERVO_GPIO_PORT, SERVO_TIM_GPIO_CH);
 
-     pwm_set_pulse_width(TIM2, SERVO_CH1, SERVO_NULL);
+     pwm_set_pulse_width(SERVO_TIM, SERVO_TIM_OC, SERVO_MIN);
 
      /* start timer1 */
-     pwm_start_timer(TIM2);
+     pwm_start_timer(SERVO_TIM);
 }
 
 void servo_set_position(enum tim_oc_id ch, uint32_t pos_us)
 {
-     pwm_set_pulse_width(TIM2, ch, pos_us);
+     pwm_set_pulse_width(SERVO_TIM, ch, pos_us);
 }
-
