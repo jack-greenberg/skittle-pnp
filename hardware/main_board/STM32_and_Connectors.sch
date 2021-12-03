@@ -14,23 +14,12 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Connector_Generic:Conn_01x20 J401
-U 1 1 61905837
-P 3450 2400
-F 0 "J401" H 3400 3550 50  0000 L CNN
-F 1 "Conn_01x20" H 3200 3450 50  0000 L CNN
-F 2 "" H 3450 2400 50  0001 C CNN
-F 3 "~" H 3450 2400 50  0001 C CNN
-	1    3450 2400
-	1    0    0    -1  
-$EndComp
-$Comp
 L Connector_Generic:Conn_01x20 J402
 U 1 1 6190757F
 P 4250 2500
 F 0 "J402" H 4168 1275 50  0000 C CNN
 F 1 "Conn_01x20" H 4168 1366 50  0000 C CNN
-F 2 "" H 4250 2500 50  0001 C CNN
+F 2 "skittle_pnp:RHDR20W80P0X254_1X20_5130X254X880P" H 4250 2500 50  0001 C CNN
 F 3 "~" H 4250 2500 50  0001 C CNN
 	1    4250 2500
 	-1   0    0    1   
@@ -244,30 +233,6 @@ Text Notes 8150 900  0    50   ~ 0
 Operating Voltage: 3.3V\nDC source/sink from I/O pins: 6mA
 Text Notes 2500 2800 2    50   ~ 0
 I2C 1
-Text GLabel 2200 2200 0    50   Output ~ 0
-MOTOR1_STEP
-Text GLabel 2200 2300 0    50   Output ~ 0
-MOTOR1_DIR
-Text GLabel 2200 2400 0    35   Output ~ 0
-MOTOR1_~EN
-Text GLabel 2200 2500 0    50   Output ~ 0
-MOTOR1_MS1
-Text GLabel 2200 2600 0    50   Output ~ 0
-MOTOR1_MS2
-Text GLabel 2200 2700 0    50   Output ~ 0
-MOTOR1_MS3
-Text GLabel 5750 2400 2    50   Output ~ 0
-MOTOR2_STEP
-Text GLabel 5750 2300 2    50   Output ~ 0
-MOTOR2_DIR
-Text GLabel 5750 2200 2    35   Output ~ 0
-MOTOR2_~EN
-Text GLabel 5750 2100 2    50   Output ~ 0
-MOTOR2_MS1
-Text GLabel 5750 2000 2    50   Output ~ 0
-MOTOR2_MS2
-Text GLabel 5750 1900 2    50   Output ~ 0
-MOTOR2_MS3
 Wire Wire Line
 	4450 2400 5750 2400
 Wire Wire Line
@@ -293,13 +258,13 @@ MOTOR2_1A
 Text GLabel 4350 6150 2    50   Output ~ 0
 MOTOR2_1B
 Wire Wire Line
-	4350 6150 4150 6150
+	4350 6150 4250 6150
 Wire Wire Line
-	4350 6050 4150 6050
+	4350 6050 4250 6050
 Wire Wire Line
-	4350 5950 4150 5950
+	4350 5950 4250 5950
 Wire Wire Line
-	4350 5850 4150 5850
+	4350 5850 4250 5850
 Text GLabel 4350 4950 2    50   Output ~ 0
 MOTOR1_2B
 Text GLabel 4350 5050 2    50   Output ~ 0
@@ -309,35 +274,13 @@ MOTOR1_1A
 Text GLabel 4350 5250 2    50   Output ~ 0
 MOTOR1_1B
 Wire Wire Line
-	4350 5250 4150 5250
+	4350 5250 4250 5250
 Wire Wire Line
-	4350 5150 4150 5150
+	4350 5150 4250 5150
 Wire Wire Line
-	4350 5050 4150 5050
+	4350 5050 4250 5050
 Wire Wire Line
-	4350 4950 4150 4950
-$Comp
-L Connector_Generic:Conn_01x04 J406
-U 1 1 61BF50ED
-P 3950 5150
-F 0 "J406" H 3950 4750 50  0000 C CNN
-F 1 "MOTOR 1" H 3950 4850 50  0000 C CNN
-F 2 "" H 3950 5150 50  0001 C CNN
-F 3 "~" H 3950 5150 50  0001 C CNN
-	1    3950 5150
-	-1   0    0    1   
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x04 J407
-U 1 1 61BF57D5
-P 3950 6050
-F 0 "J407" H 3950 5650 50  0000 C CNN
-F 1 "MOTOR 2" H 3950 5750 50  0000 C CNN
-F 2 "" H 3950 6050 50  0001 C CNN
-F 3 "~" H 3950 6050 50  0001 C CNN
-	1    3950 6050
-	-1   0    0    1   
-$EndComp
+	4350 4950 4250 4950
 $Comp
 L power:GND #PWR0415
 U 1 1 61BF9D1C
@@ -355,7 +298,7 @@ U 1 1 61C1F190
 P 6050 4950
 F 0 "F401" V 6247 4950 50  0000 C CNN
 F 1 "F_1.1A_12V" V 6156 4950 50  0000 C CNN
-F 2 "Fuse_Holders_and_Fuses:Fuse_SMD1206_Reflow" V 5980 4950 50  0001 C CNN
+F 2 "skittle_pnp:1206L075SLYR" V 5980 4950 50  0001 C CNN
 F 3 "http://www.littelfuse.com/~/media/electronics/datasheets/resettable_ptcs/littelfuse_ptc_lorho_datasheet.pdf.pdf" V 6130 4950 50  0001 C CNN
 F 4 "DK" H 6050 4950 60  0001 C CNN "MFN"
 F 5 "F5764CT-ND" H 6050 4950 60  0001 C CNN "MPN"
@@ -377,14 +320,12 @@ Wire Wire Line
 	5750 5050 5950 5050
 Wire Wire Line
 	5750 5150 5950 5150
-Wire Wire Line
-	6200 4950 6400 4950
 Text GLabel 6400 4950 2    50   Input ~ 0
 PWR_IN
 Text Notes 5350 2700 0    50   ~ 0
 USART 2
 Wire Wire Line
-	4450 3000 6400 3000
+	4450 3000 6500 3000
 Wire Wire Line
 	4450 2900 5750 2900
 Wire Wire Line
@@ -399,17 +340,6 @@ Wire Wire Line
 	2200 2400 3250 2400
 Wire Wire Line
 	2200 2500 3250 2500
-$Comp
-L Connector_Generic:Conn_01x04 J403
-U 1 1 61E42C7A
-P 1800 7050
-F 0 "J403" H 1718 6625 50  0000 C CNN
-F 1 "Conn_01x04" H 1718 6716 50  0000 C CNN
-F 2 "" H 1800 7050 50  0001 C CNN
-F 3 "~" H 1800 7050 50  0001 C CNN
-	1    1800 7050
-	-1   0    0    1   
-$EndComp
 Text Label 2200 6950 0    50   ~ 0
 (SCL)PB6
 Text Label 2200 7050 0    50   ~ 0
@@ -531,20 +461,20 @@ $EndComp
 $Comp
 L formula:Test_Point_SMD TP403
 U 1 1 61F280D7
-P 1500 1900
-F 0 "TP403" V 1500 2100 50  0000 L CNN
-F 1 "PA8" V 1500 2350 50  0000 L CNN
-F 2 "footprints:Test_Point_SMD" H 1500 1750 50  0001 C CNN
-F 3 "" H 1500 1900 50  0001 C CNN
-	1    1500 1900
-	0    -1   -1   0   
+P 6550 3000
+F 0 "TP403" V 6550 3200 50  0000 L CNN
+F 1 "PA0" V 6550 3450 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 6550 2850 50  0001 C CNN
+F 3 "" H 6550 3000 50  0001 C CNN
+	1    6550 3000
+	0    1    1    0   
 $EndComp
 Wire Wire Line
 	1550 1700 3250 1700
 Wire Wire Line
 	1750 1800 3250 1800
 Wire Wire Line
-	1550 1900 3250 1900
+	2200 1900 3250 1900
 Text Label 5900 5950 0    50   ~ 0
 PUMP_GND
 Text Label 4350 4450 0    50   ~ 0
@@ -555,7 +485,7 @@ U 1 1 61F77CD1
 P 5550 6050
 F 0 "J409" H 5500 5650 50  0000 L CNN
 F 1 "SKITTLE PICKUP" H 5250 5750 50  0000 L CNN
-F 2 "" H 5550 6050 50  0001 C CNN
+F 2 "skittle_pnp:CUI_TB006-508-04BE" H 5550 6050 50  0001 C CNN
 F 3 "~" H 5550 6050 50  0001 C CNN
 	1    5550 6050
 	-1   0    0    1   
@@ -613,17 +543,6 @@ Wire Wire Line
 Wire Wire Line
 	1550 2100 3250 2100
 $Comp
-L Connector_Generic:Conn_01x04 J405
-U 1 1 6216431F
-P 1850 5900
-F 0 "J405" H 1768 5475 50  0000 C CNN
-F 1 "Conn_01x04" H 1768 5566 50  0000 C CNN
-F 2 "" H 1850 5900 50  0001 C CNN
-F 3 "~" H 1850 5900 50  0001 C CNN
-	1    1850 5900
-	-1   0    0    1   
-$EndComp
-$Comp
 L power:+5V #PWR0412
 U 1 1 62164327
 P 2450 5550
@@ -663,17 +582,6 @@ Text Label 2250 5900 0    50   ~ 0
 PA2(TxD)
 Text Notes 1750 6000 1    50   ~ 0
 USART 2
-$Comp
-L Connector_Generic:Conn_01x04 J404
-U 1 1 62181BC5
-P 1850 4800
-F 0 "J404" H 1768 4375 50  0000 C CNN
-F 1 "Conn_01x04" H 1768 4466 50  0000 C CNN
-F 2 "" H 1850 4800 50  0001 C CNN
-F 3 "~" H 1850 4800 50  0001 C CNN
-	1    1850 4800
-	-1   0    0    1   
-$EndComp
 $Comp
 L power:+5V #PWR0411
 U 1 1 62181BCD
@@ -751,12 +659,12 @@ U 1 1 61C4A68E
 P 5550 5150
 F 0 "J408" H 5550 4750 50  0000 C CNN
 F 1 "POWER" H 5550 4850 50  0000 C CNN
-F 2 "" H 5550 5150 50  0001 C CNN
+F 2 "skittle_pnp:CUI_TB006-508-04BE" H 5550 5150 50  0001 C CNN
 F 3 "~" H 5550 5150 50  0001 C CNN
 	1    5550 5150
 	-1   0    0    1   
 $EndComp
-Text Label 6400 3000 0    50   ~ 0
+Text Label 2200 1900 2    50   ~ 0
 SERVO_PWM
 Text Label 4350 4250 0    50   ~ 0
 SERVO_PWR
@@ -773,7 +681,7 @@ F 3 "" H 4950 4400 50  0001 C CNN
 	1    4950 4400
 	1    0    0    -1  
 $EndComp
-NoConn ~ 4150 4550
+NoConn ~ 4250 4550
 $Comp
 L power:+5V #PWR0418
 U 1 1 62406042
@@ -788,9 +696,7 @@ $EndComp
 Wire Wire Line
 	4950 4250 4950 4150
 Wire Wire Line
-	4150 4250 4950 4250
-Text Label 5750 2900 0    50   ~ 0
-VALVE_CONTROL
+	4250 4250 4950 4250
 Text Label 9300 4950 2    50   ~ 0
 X_LIMIT_MAX
 Text Label 10650 4950 2    50   ~ 0
@@ -798,22 +704,11 @@ Y_LIMIT_MAX
 Text Label 9950 4950 2    50   ~ 0
 Y_LIMIT_MIN
 Wire Wire Line
-	4150 4350 4950 4350
+	4250 4350 4950 4350
 Wire Wire Line
 	4950 4350 4950 4400
 Wire Wire Line
-	4150 4450 4350 4450
-$Comp
-L Connector_Generic:Conn_01x04 J411
-U 1 1 624B1361
-P 3950 4450
-F 0 "J411" H 3950 4050 50  0000 C CNN
-F 1 "SERVO" H 3950 4150 50  0000 C CNN
-F 2 "" H 3950 4450 50  0001 C CNN
-F 3 "~" H 3950 4450 50  0001 C CNN
-	1    3950 4450
-	-1   0    0    1   
-$EndComp
+	4250 4450 4350 4450
 Text Notes 800  1600 0    50   ~ 0
 exposed copper \nfor additional pins
 $Comp
@@ -822,7 +717,7 @@ U 1 1 62697A56
 P 7450 5650
 F 0 "J412" H 7368 5025 50  0000 C CNN
 F 1 "LIMIT SWITCHES" H 7368 5116 50  0000 C CNN
-F 2 "" H 7450 5650 50  0001 C CNN
+F 2 "skittle_pnp:RHDR8W80P0X254_1X8_2082X254X850P" H 7450 5650 50  0001 C CNN
 F 3 "~" H 7450 5650 50  0001 C CNN
 	1    7450 5650
 	-1   0    0    1   
@@ -946,32 +841,12 @@ F 3 "" H 9750 4100 50  0001 C CNN
 $EndComp
 Text GLabel 5900 6150 2    50   Input ~ 0
 VALVE_PWR
-Text Label 5900 6050 0    50   ~ 0
-VALVE_GND
-$Comp
-L power:GND #PWR0413
-U 1 1 628406EF
-P 6650 6250
-F 0 "#PWR0413" H 6650 6000 50  0001 C CNN
-F 1 "GND" H 6655 6077 50  0000 C CNN
-F 2 "" H 6650 6250 50  0001 C CNN
-F 3 "" H 6650 6250 50  0001 C CNN
-	1    6650 6250
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	6650 5950 6650 6050
 Wire Wire Line
 	5750 5950 6650 5950
 Wire Wire Line
 	5750 6150 5900 6150
-Wire Wire Line
-	5750 6050 6650 6050
-Connection ~ 6650 6050
-Wire Wire Line
-	6650 6050 6650 6250
-Text Notes 8150 3500 0    50   ~ 0
-STM32 has an internal 5V - 3.3V Regulator \nwhich will be used to supply 3.3V for the rest \nof the components
 Wire Notes Line
 	3700 3850 3700 6500
 Wire Notes Line
@@ -1044,14 +919,14 @@ Wire Wire Line
 	10750 4200 10050 4200
 Connection ~ 10050 4200
 Text Notes 7400 6200 0    50   ~ 0
-PWR wired to the NC pin \nGND wired to the G pin
-Text Label 2200 3000 2    50   ~ 0
-X_LIMIT_MIN
+PWR wired to the NO pin \nGND wired to the G pin
 Text Label 2200 3100 2    50   ~ 0
+X_LIMIT_MIN
+Text Label 2200 3000 2    50   ~ 0
 X_LIMIT_MAX
-Text Label 2200 1500 2    50   ~ 0
-Y_LIMIT_MIN
 Text Label 2200 1600 2    50   ~ 0
+Y_LIMIT_MIN
+Text Label 2200 1500 2    50   ~ 0
 Y_LIMIT_MAX
 Text Notes 7400 6350 0    50   ~ 0
 MIN --> (0,0) 
@@ -1063,4 +938,136 @@ Wire Notes Line
 	11150 6400 11150 3850
 Wire Notes Line
 	11150 3850 6950 3850
+Text GLabel 5750 2900 2    50   Input ~ 0
+VALVE_CONTROL
+Text Notes 1000 3350 0    50   ~ 0
+add pullup for i2c
+$Comp
+L power:GND #PWR0413
+U 1 1 61990868
+P 6650 6050
+F 0 "#PWR0413" H 6650 5800 50  0001 C CNN
+F 1 "GND" H 6655 5877 50  0000 C CNN
+F 2 "" H 6650 6050 50  0001 C CNN
+F 3 "" H 6650 6050 50  0001 C CNN
+	1    6650 6050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5750 6050 5900 6050
+Text GLabel 5900 6050 2    50   Input ~ 0
+VALVE_GND
+$Comp
+L Connector_Generic:Conn_01x04 J405
+U 1 1 61995B02
+P 1850 5900
+F 0 "J405" H 1768 5475 50  0000 C CNN
+F 1 "USART 2" H 1768 5566 50  0000 C CNN
+F 2 "skittle_pnp:SULLINS_PPTC041LFBN-RC" H 1850 5900 50  0001 C CNN
+F 3 "~" H 1850 5900 50  0001 C CNN
+	1    1850 5900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x20 J401
+U 1 1 61A88153
+P 3450 2400
+F 0 "J401" H 3450 3550 50  0000 C CNN
+F 1 "Conn_01x20" H 3450 3450 50  0000 C CNN
+F 2 "skittle_pnp:RHDR20W80P0X254_1X20_5130X254X880P" H 3450 2400 50  0001 C CNN
+F 3 "~" H 3450 2400 50  0001 C CNN
+	1    3450 2400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J404
+U 1 1 61A94510
+P 1850 4800
+F 0 "J404" H 1768 4375 50  0000 C CNN
+F 1 "USART 1" H 1768 4466 50  0000 C CNN
+F 2 "skittle_pnp:SULLINS_PPTC041LFBN-RC" H 1850 4800 50  0001 C CNN
+F 3 "~" H 1850 4800 50  0001 C CNN
+	1    1850 4800
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J403
+U 1 1 61A98383
+P 1800 7050
+F 0 "J403" H 1718 6625 50  0000 C CNN
+F 1 "I2C" H 1718 6716 50  0000 C CNN
+F 2 "skittle_pnp:SULLINS_PPTC041LFBN-RC" H 1800 7050 50  0001 C CNN
+F 3 "~" H 1800 7050 50  0001 C CNN
+	1    1800 7050
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J410
+U 1 1 61A98DDE
+P 4050 6050
+F 0 "J410" H 3968 5625 50  0000 C CNN
+F 1 "MOTOR 2" H 3968 5716 50  0000 C CNN
+F 2 "skittle_pnp:SULLINS_PPTC041LFBN-RC" H 4050 6050 50  0001 C CNN
+F 3 "~" H 4050 6050 50  0001 C CNN
+	1    4050 6050
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J407
+U 1 1 61AA1338
+P 4050 5150
+F 0 "J407" H 3968 4725 50  0000 C CNN
+F 1 "MOTOR 1" H 3968 4816 50  0000 C CNN
+F 2 "skittle_pnp:SULLINS_PPTC041LFBN-RC" H 4050 5150 50  0001 C CNN
+F 3 "~" H 4050 5150 50  0001 C CNN
+	1    4050 5150
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J406
+U 1 1 61AA1940
+P 4050 4450
+F 0 "J406" H 3968 4025 50  0000 C CNN
+F 1 "SERVO" H 3968 4116 50  0000 C CNN
+F 2 "skittle_pnp:SULLINS_PPTC041LFBN-RC" H 4050 4450 50  0001 C CNN
+F 3 "~" H 4050 4450 50  0001 C CNN
+	1    4050 4450
+	-1   0    0    1   
+$EndComp
+Text Notes 3950 6150 1    50   ~ 0
+Motor 2\n
+Text Notes 3950 5250 1    50   ~ 0
+Motor 1
+Text Notes 3950 4550 1    50   ~ 0
+Servo
+Text Notes 5450 5200 1    50   ~ 0
+Power
+Text Notes 5850 6300 2    50   ~ 0
+Valve and Pump
+Wire Wire Line
+	6200 4950 6400 4950
+Text GLabel 5750 2200 2    50   Output ~ 0
+MOTOR2_MS3
+Text GLabel 5750 2100 2    50   Output ~ 0
+MOTOR2_MS2
+Text GLabel 5750 2000 2    50   Output ~ 0
+MOTOR2_MS1
+Text GLabel 5750 1900 2    35   Output ~ 0
+MOTOR2_~EN
+Text GLabel 5750 2300 2    50   Output ~ 0
+MOTOR2_STEP
+Text GLabel 5750 2400 2    50   Output ~ 0
+MOTOR2_DIR
+Text GLabel 2200 2600 0    50   Output ~ 0
+MOTOR1_STEP
+Text GLabel 2200 2700 0    50   Output ~ 0
+MOTOR1_DIR
+Text GLabel 2200 2200 0    35   Output ~ 0
+MOTOR1_~EN
+Text GLabel 2200 2300 0    50   Output ~ 0
+MOTOR1_MS1
+Text GLabel 2200 2400 0    50   Output ~ 0
+MOTOR1_MS2
+Text GLabel 2200 2500 0    50   Output ~ 0
+MOTOR1_MS3
 $EndSCHEMATC

@@ -14,22 +14,6 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L formula:SSM3K333R Q?
-U 1 1 6286E090
-P 5900 2800
-AR Path="/619053FC/6286E090" Ref="Q?"  Part="1" 
-AR Path="/6286C9DB/6286E090" Ref="Q501"  Part="1" 
-F 0 "Q501" H 6106 2846 50  0000 L CNN
-F 1 "SSM3K333R" H 6106 2755 50  0000 L CNN
-F 2 "footprints:SOT-23F" H 6100 2725 50  0001 L CIN
-F 3 "https://drive.google.com/drive/folders/0B-V-iZf33Y4GNzhDQTJZanJRbVk" H 6100 2875 50  0001 L CNN
-F 4 "DK" H 6400 3175 60  0001 C CNN "MFN"
-F 5 "SSM3K333RLFCT-ND" H 6300 3075 60  0001 C CNN "MPN"
-F 6 "https://www.digikey.com/product-detail/en/toshiba-semiconductor-and-storage/SSM3K333RLF/SSM3K333RLFCT-ND/3522391" H 6200 2975 60  0001 C CNN "PurchasingLink"
-	1    5900 2800
-	1    0    0    -1  
-$EndComp
-$Comp
 L power:+12V #PWR?
 U 1 1 6286E096
 P 6000 1750
@@ -92,66 +76,65 @@ Wire Notes Line
 Wire Wire Line
 	6000 3300 6000 3500
 Wire Wire Line
-	6000 2350 6200 2350
-Connection ~ 6000 2350
-Wire Wire Line
 	6000 3000 6000 3300
-Wire Wire Line
-	6000 2350 6000 2550
 Text Notes 4250 3950 0    50   ~ 0
 diode: https://www.diodes.com/assets/Datasheets/ds14001.pdf\n200V, 1A
 Wire Notes Line
 	4250 1500 6900 1500
 Wire Notes Line
 	4250 3750 6900 3750
-Wire Wire Line
-	5700 2550 6000 2550
-Connection ~ 6000 2550
-Wire Wire Line
-	6000 2550 6000 2600
-Wire Wire Line
-	5700 2500 5700 2550
-$Comp
-L formula:R_10K R?
-U 1 1 6286E0CA
-P 6000 1950
-AR Path="/619053FC/6286E0CA" Ref="R?"  Part="1" 
-AR Path="/6286C9DB/6286E0CA" Ref="R502"  Part="1" 
-F 0 "R502" H 6070 1996 50  0000 L CNN
-F 1 "R_10K" H 6070 1905 50  0000 L CNN
-F 2 "footprints:R_0805_OEM" H 5930 1950 50  0001 C CNN
-F 3 "http://www.bourns.com/data/global/pdfs/CRS.pdf" H 6080 1950 50  0001 C CNN
-F 4 "DK" H 6000 1950 60  0001 C CNN "MFN"
-F 5 "CRS0805-FX-1002ELFCT-ND" H 6000 1950 60  0001 C CNN "MPN"
-F 6 "https://www.digikey.com/products/en?keywords=CRS0805-FX-1002ELFCT-ND" H 6480 2350 60  0001 C CNN "PurchasingLink"
-	1    6000 1950
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5700 2200 5700 2150
-Wire Wire Line
-	5700 2150 6000 2150
-Wire Wire Line
-	6000 2150 6000 2350
-Wire Wire Line
-	6000 1750 6000 1800
-Wire Wire Line
-	6000 2100 6000 2150
-Connection ~ 6000 2150
 Text GLabel 5200 2800 0    50   Input ~ 0
 VALVE_CONTROL
-Text GLabel 6200 2350 2    50   Output ~ 0
+Text GLabel 6150 2100 2    50   Output ~ 0
 VALVE_PWR
 $Comp
 L skittle_pnp:D_200_1A D501
 U 1 1 62A9BBC4
-P 5700 2350
-F 0 "D501" V 5650 2150 50  0000 L CNN
-F 1 "D_200_1A" V 5750 1900 50  0000 L CNN
-F 2 "skittle_pnp:DIOM5226X240N" H 5700 2350 50  0001 C CNN
-F 3 "https://www.diodes.com/assets/Datasheets/ds14001.pdf" H 5700 2350 50  0001 C CNN
-F 4 "https://www.digikey.com/en/products/detail/diodes-incorporated/ES1D-13-F/768873" H 5700 2350 50  0001 C CNN "Purchasing Link"
-	1    5700 2350
+P 5700 2250
+F 0 "D501" V 5650 2000 50  0000 L CNN
+F 1 "D_200_1A" V 5750 1800 50  0000 L CNN
+F 2 "skittle_pnp:DIOM5226X240N" H 5700 2250 50  0001 C CNN
+F 3 "https://www.diodes.com/assets/Datasheets/ds14001.pdf" H 5700 2250 50  0001 C CNN
+F 4 "https://www.digikey.com/en/products/detail/diodes-incorporated/ES1D-13-F/768873" H 5700 2250 50  0001 C CNN "Purchasing Link"
+	1    5700 2250
 	0    1    1    0   
 $EndComp
+Wire Wire Line
+	6000 2100 6150 2100
+Wire Wire Line
+	6000 1750 6000 1950
+$Comp
+L formula:SSM3K333R Q501
+U 1 1 619884FC
+P 5900 2800
+F 0 "Q501" H 6106 2846 50  0000 L CNN
+F 1 "SSM3K333R" H 6106 2755 50  0000 L CNN
+F 2 "footprints:SOT-23F" H 6100 2725 50  0001 L CIN
+F 3 "https://drive.google.com/drive/folders/0B-V-iZf33Y4GNzhDQTJZanJRbVk" H 6100 2875 50  0001 L CNN
+F 4 "DK" H 6400 3175 60  0001 C CNN "MFN"
+F 5 "SSM3K333RLFCT-ND" H 6300 3075 60  0001 C CNN "MPN"
+F 6 "https://www.digikey.com/product-detail/en/toshiba-semiconductor-and-storage/SSM3K333RLF/SSM3K333RLFCT-ND/3522391" H 6200 2975 60  0001 C CNN "PurchasingLink"
+	1    5900 2800
+	1    0    0    -1  
+$EndComp
+Text GLabel 6150 2350 2    50   Input ~ 0
+VALVE_GND
+Wire Wire Line
+	6000 2350 6000 2500
+Wire Wire Line
+	5700 2100 5700 1950
+Wire Wire Line
+	5700 1950 6000 1950
+Connection ~ 6000 1950
+Wire Wire Line
+	6000 1950 6000 2100
+Wire Wire Line
+	5700 2400 5700 2500
+Wire Wire Line
+	5700 2500 6000 2500
+Connection ~ 6000 2500
+Wire Wire Line
+	6000 2500 6000 2600
+Wire Wire Line
+	6000 2350 6150 2350
 $EndSCHEMATC
