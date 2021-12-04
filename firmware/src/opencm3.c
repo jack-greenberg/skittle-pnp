@@ -9,22 +9,18 @@
 #include <libopencm3/stm32/rcc.h>
 #include <task.h>
 
-extern void vPortSVCHandler(void) __attribute__ ((naked));
-extern void xPortPendSVHandler(void) __attribute__ ((naked));
+extern void vPortSVCHandler(void) __attribute__((naked));
+extern void xPortPendSVHandler(void) __attribute__((naked));
 extern void xPortSysTickHandler(void);
 
-void sv_call_handler(void)
-{
-  vPortSVCHandler();
+void sv_call_handler(void) {
+    vPortSVCHandler();
 }
 
-void pend_sv_handler(void)
-{
-  xPortPendSVHandler();
+void pend_sv_handler(void) {
+    xPortPendSVHandler();
 }
 
-void sys_tick_handler(void)
-{
-  xPortSysTickHandler();
+void sys_tick_handler(void) {
+    xPortSysTickHandler();
 }
-
