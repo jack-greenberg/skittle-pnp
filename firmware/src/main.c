@@ -157,9 +157,9 @@ static void usart_setup(int uart) {
 }
 
 static void limit_setup(void) {
-//     nvic_enable_irq(NVIC_EXTI15_10_IRQ);
-//     nvic_enable_irq(NVIC_EXTI9_5_IRQ);
-// 
+    nvic_enable_irq(NVIC_EXTI15_10_IRQ);
+    nvic_enable_irq(NVIC_EXTI9_5_IRQ);
+
     gpio_set_mode(limit_x_min.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_x_min.pin);
     exti_select_source(LIMIT_X_MIN_IRQ, limit_x_min.port);
     exti_set_trigger(LIMIT_X_MIN_IRQ, EXTI_TRIGGER_FALLING);

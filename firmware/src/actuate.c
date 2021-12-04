@@ -29,29 +29,38 @@ static volatile bool STOP_Y = false;
 
 void exti9_5_isr(void) {
     STOP_X = true;
+
+    if (!gpio_get(limit_x_min.port, limit_x_min.pin)) {
+        x_extreme = MIN;
+    }
+
+    if (!gpio_get(limit_x_max.port, limit_x_max.pin)) {
+        x_extreme = MAX;
+    }
+
+    exti_reset_request(LIMIT_X_MIN_IRQ);
+    exti_reset_request(LIMIT_X_MAX_IRQ);
 }
 
-// void exti15_10_isr(void) {
-//     STOP_Y = true;
-// }
+void exti15_10_isr(void) {
+    STOP_Y = true;
 
-// void exti4_isr(void) {
-//     // Limit x
-//     STOP_X = true;
-//     x_pos = 0;
-//     exti_reset_request(EXTI4);
-// }
-// 
-// void exti9_5_isr(void) {
-//     // Limit y
-//     STOP_Y = true;
-//     y_pos = 0;
-//     exti_reset_request(EXTI5);
-// }
+    if (!gpio_get(limit_y_min.port, limit_y_min.pin)) {
+        y_extreme = MIN;
+    }
+
+    if (!gpio_get(limit_y_max.port, limit_y_max.pin)) {
+        y_extreme = MAX;
+    }
+
+    exti_reset_request(LIMIT_Y_MIN_IRQ);
+    exti_reset_request(LIMIT_Y_MAX_IRQ);
+}
 
 void move_linear(int32_t x, int32_t y) {
     // For horizontal, move 
 
+    // TODO: absolute positioning
     int32_t delta_x = x;// - x_pos;
     int32_t delta_y = y;// - y_pos;
 
@@ -61,29 +70,45 @@ void move_linear(int32_t x, int32_t y) {
     uint8_t x_dir = (x > 0) ? COUNTERCLOCKWISE : CLOCKWISE;
     uint8_t y_dir = (y > 0) ? CLOCKWISE : COUNTERCLOCKWISE;
 
+    if (STOP_X) {
+        if ((x >= 0) && (x_extreme == MIN)) {
+            STOP_X = false;
+        } else if ((x <= 0) && (x_extreme == MAX)) {
+            STOP_X = false;
+        }
+    }
+
+    if (STOP_Y) {
+        if ((y >= 0) && (y_extreme == MIN)) {
+            STOP_Y = false;
+        } else if ((y <= 0) && (y_extreme == MAX)) {
+            STOP_Y = false;
+        }
+    }
+
     if (delta_y == 0) {
         // Just move X
         for (int32_t i = 0; i < abs(delta_x); i++) {
-            if (gpio_get(limit_x_min.port, limit_x_min.pin) || (x > 0)) {
+            if (!STOP_X) {
                 stepper_step(stepper_x, x_dir);
             }
         }
     } else if (delta_x == 0) {
         // Just move Y
         for (int32_t i = 0; i < abs(delta_y); i++) {
-            if (gpio_get(limit_y_min.port, limit_y_min.pin) || (y > 0)) {
+            if (!STOP_Y) {
                 stepper_step(stepper_y, y_dir);
             }
         }
     } else if (slope >= 1) {
         // Y is bigger
         for (int32_t i = 0; i < abs(delta_y); i++) {
-            if (gpio_get(limit_y_min.port, limit_y_min.pin) || (y > 0)) {
+            if (!STOP_Y) {
                 stepper_step(stepper_y, y_dir);
             }
 
             if (i % (int)slope == 0) {
-                if (gpio_get(limit_x_min.port, limit_x_min.pin) || (y > 0)) {
+                if (!STOP_X) {
                     stepper_step(stepper_x, x_dir);
                 }
             }
@@ -91,12 +116,12 @@ void move_linear(int32_t x, int32_t y) {
     } else {
         // X is bigger
         for (int32_t i = 0; i < abs(delta_x); i++) {
-            if (gpio_get(limit_x_min.port, limit_x_min.pin) || (x > 0)) {
+            if (!STOP_X) {
                 stepper_step(stepper_x, x_dir);
             }
 
             if (i % (int)inv_slope == 0) {
-                if (gpio_get(limit_y_min.port, limit_y_min.pin) || (y > 0)) {
+                if (!STOP_Y) {
                     stepper_step(stepper_y, y_dir);
                 }
             }
