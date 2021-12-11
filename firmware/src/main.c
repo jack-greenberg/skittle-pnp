@@ -3,7 +3,7 @@
 #include <queue.h>
 #include <task.h>
 
-#include <libopencm3/cm3/nvic.h>
+#include <libopencm3/stm32/f1/nvic.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/usart.h>
@@ -51,7 +51,6 @@ void task_uart(void *args __attribute__((unused))) {
             // c == '\n'
             uart_buffer[uart_buffer_length] = '\0';
             uart_buffer_length++;
-            uart_puts(USART2, "Sent to GCode processor\n");
             xMessageBufferSend(raw_gcode_buffer, &uart_buffer,
                                uart_buffer_length, 0);
 
@@ -76,17 +75,11 @@ void task_gcode(void *args __attribute__((unused))) {
 
         if (rc == GCODE_PARSE_UNKNOWN) {
             uart_puts(USART2, "Parse unknown\n");
-            // handle error
         } else if (rc == GCODE_PARSE_ERROR) {
             uart_puts(USART2, "Parse error\n");
-            // handle error
         } else {
-            uart_puts(USART2, "Parse successful\n");
-            // TODO handle queue full
             xQueueSend(command_queue, (void *)&cmd, portMAX_DELAY);
         }
-
-        memset(gcode, 0, 64);
     }
 }
 
@@ -108,11 +101,23 @@ void task_motion(void *args __attribute__((unused))) {
             case G28: {
                 move_home(cmd.g28.x, cmd.g28.y, cmd.g28.z);
             } break;
+            case G400: {
+                enable_motors(true);
+            } break;
+            case G401: {
+                enable_motors(false);
+            } break;
             case M400: {
                 actuate_solenoid(false);
             } break;
             case M401: {
                 actuate_solenoid(true);
+            } break;
+            case M410: {
+                open_feeder(true);
+            } break;
+            case M411: {
+                open_feeder(false);
             } break;
         }
 
@@ -142,7 +147,7 @@ static void usart_setup(int uart) {
 
     switch (uart) {
         case USART1: {
-            nvic_enable_irq(NVIC_USART1_IRQ);
+            // nvic_enable_irq(NVIC_USART1_IRQ);
         } break;
         case USART2: {
             nvic_enable_irq(NVIC_USART2_IRQ);
@@ -157,12 +162,12 @@ static void usart_setup(int uart) {
 }
 
 static void limit_setup(void) {
-    nvic_enable_irq(NVIC_EXTI15_10_IRQ);
     nvic_enable_irq(NVIC_EXTI9_5_IRQ);
+    nvic_enable_irq(NVIC_EXTI15_10_IRQ);
 
     gpio_set_mode(limit_x_min.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_x_min.pin);
-    exti_select_source(LIMIT_X_MIN_IRQ, limit_x_min.port);
     exti_set_trigger(LIMIT_X_MIN_IRQ, EXTI_TRIGGER_FALLING);
+    exti_select_source(LIMIT_X_MIN_IRQ, limit_x_min.port);
     exti_enable_request(LIMIT_X_MIN_IRQ);
 
     gpio_set_mode(limit_y_min.port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, limit_y_min.pin);
@@ -186,6 +191,7 @@ int main(void) {
     rcc_periph_clock_enable(RCC_USART2);
     rcc_periph_clock_enable(RCC_GPIOA);
     rcc_periph_clock_enable(RCC_GPIOB);
+    rcc_periph_clock_enable(RCC_AFIO);
 
     limit_setup();
     usart_setup(USART2);
@@ -197,10 +203,10 @@ int main(void) {
     stepper_init(stepper_y);
 
     /*
-     * Servo
+     * Servos
      */
-    servo_init();
-    servo_set_position(SERVO_TIM_OC, SERVO_MIN);
+    servo_init(servo_z, Z_MIN);
+    servo_init(servo_feeder, 0);
 
     /*
      * Valve
@@ -216,7 +222,6 @@ int main(void) {
 
     xTaskCreate(task_gcode, "gcode", 100, NULL, configMAX_PRIORITIES - 2, NULL);
     xTaskCreate(task_uart, "uart", 100, NULL, configMAX_PRIORITIES - 2, NULL);
-    // xTaskCreate(task_ui, "ui", 100, NULL, configMAX_PRIORITIES - 1, NULL);
     xTaskCreate(task_motion, "motion", 100, NULL, configMAX_PRIORITIES - 1, NULL);
 
     vTaskStartScheduler();

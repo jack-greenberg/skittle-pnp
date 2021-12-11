@@ -1,10 +1,21 @@
 #include "bsp.h"
 #include "stepper.h"
+#include "servo.h"
+#include <libopencm3/stm32/timer.h>
 
 // TODO jack: update the TIM config
-pin_s servo = {
-    .pin = GPIO8,
-    .port = GPIOA,
+servo_s servo_z = {
+    .timer = TIM1,
+    .output_channel = TIM_OC1,
+    .gpio_output_number = GPIO_TIM1_CH1,
+    .gpio_port = GPIOA,
+};
+
+servo_s servo_feeder = {
+    .timer = TIM1,
+    .output_channel = TIM_OC1,
+    .gpio_output_number = GPIO_TIM1_CH1,
+    .gpio_port = GPIOA,
 };
 
 pin_s solenoid = {
@@ -13,7 +24,7 @@ pin_s solenoid = {
 };
 
 pin_s limit_x_min = {
-    .pin = GPIO8,
+    .pin = GPIO7,
     .port = GPIOB,
 };
 
@@ -34,17 +45,17 @@ pin_s limit_y_max = {
 
 stepper_s stepper_x = {
     .step = {
-        .pin = GPIO4,
+        .pin = GPIO1,
         .port = GPIOB,
     },
     .dir = {
-        .pin = GPIO5,
+        .pin = GPIO0,
         .port = GPIOB,
     },
     .n_enable = {
         .pin = GPIO11,
         .port = GPIOA,
-    }
+    },
 };
 
 stepper_s stepper_y = {

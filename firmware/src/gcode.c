@@ -58,6 +58,12 @@ static int parse_Gxx(char* raw, size_t len, gcode_command_s* cmd) {
                 cmd->g28.z = true;
             }
         } break;
+        case 400: {
+            cmd->type = G400;
+        } break;
+        case 401: {
+            cmd->type = G401;
+        } break;
         default: {
             return GCODE_PARSE_UNKNOWN;
         }
@@ -76,6 +82,12 @@ static int parse_Mxx(char* raw, size_t len, gcode_command_s* cmd) {
         } break;
         case 401: {
             cmd->type = M401;
+        } break;
+        case 410: {
+            cmd->type = M410;
+        } break;
+        case 411: {
+            cmd->type = M411;
         } break;
         default: {
             return GCODE_PARSE_UNKNOWN;

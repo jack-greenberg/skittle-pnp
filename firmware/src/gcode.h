@@ -11,10 +11,12 @@
 typedef enum {
     G01, // Linear motion
     G28, // Go home/calibrate 0
-    // G400, // Enable jog mode
-    // G401, // Disable jog mode
+    G400, // Disable jog mode
+    G401, // Enable jog mode
     M400, // Actuate solenoid (begin suction)
     M401, // De-actuate solenoid (end suction)
+    M410, // Open Feeder
+    M411, // Close Feeder
 } gcode_command_type_e;
 
 typedef struct {
@@ -43,6 +45,12 @@ typedef struct {
         struct M401_args_s {
             // Empty
         } m401;
+        struct M410_args_s {
+            // Empty
+        } m410;
+        struct M411_args_s {
+            // Empty
+        } m411;
     };
 } gcode_command_s;
 

@@ -16,4 +16,8 @@ extern stepper_s stepper_y;
 
 void stepper_init(stepper_s stepper);
 
-void stepper_step(stepper_s stepper, uint8_t dir);
+void stepper_set_dir(stepper_s stepper, uint8_t dir);
+
+void stepper_step(stepper_s stepper);
+
+void stepper_step_both(void);

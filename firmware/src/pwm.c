@@ -42,6 +42,8 @@ void pwm_init_timer(volatile uint32_t *reg, uint32_t en, uint32_t timer_peripher
     timer_enable_preload(timer_peripheral);
     timer_continuous_mode(timer_peripheral);
     timer_set_period(timer_peripheral, period);
+
+    // timer_disable_irq(TIM1, EXTI9_5);
     
     timer_enable_break_main_output(TIM1);
     timer_enable_counter(TIM1);
@@ -58,6 +60,7 @@ void pwm_init_output_channel(uint32_t timer_peripheral, enum tim_oc_id oc_id, vo
                gpio_pin);
 
     timer_disable_oc_output(timer_peripheral, oc_id);
+    timer_disable_oc_output(TIM1, TIM_OC3N);
     timer_set_oc_mode(timer_peripheral, oc_id, TIM_OCM_PWM1);
     timer_set_oc_value(timer_peripheral, oc_id, 0);
     timer_enable_oc_output(timer_peripheral, oc_id);
