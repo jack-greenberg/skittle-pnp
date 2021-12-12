@@ -8,8 +8,8 @@
 #include <stdint.h>
 #include "servo.h"
 
-#define LIMIT_X_MIN_IRQ (EXTI7)
-#define LIMIT_X_MAX_IRQ (EXTI9)
+#define LIMIT_X_MIN_IRQ (EXTI9)
+#define LIMIT_X_MAX_IRQ (EXTI8)
 #define LIMIT_Y_MIN_IRQ (EXTI12)
 #define LIMIT_Y_MAX_IRQ (EXTI13)
 

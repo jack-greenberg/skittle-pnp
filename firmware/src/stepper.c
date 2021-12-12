@@ -1,5 +1,6 @@
 #include "stepper.h"
 #include "util.h"
+#include <libopencm3/stm32/timer.h>
 
 // TODO tune me!
 #define STEPPER_DELAY (7000)
@@ -10,6 +11,19 @@ void stepper_init(stepper_s stepper) {
     gpio_set_mode(stepper.dir.port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper.dir.pin);
 
     gpio_set_mode(stepper.n_enable.port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, stepper.n_enable.pin);
+
+    // One pulse mode
+    // timer_
+//     rcc_periph_clock_enable(RCC_TIM3);
+//     timer_set_mode(TIM3,
+//                 TIM_CR1_CKD_CK_INT,
+//                 TIM_CR1_CMS_EDGE,
+//                 TIM_CR1_DIR_UP);
+// 
+//     timer_one_shot_mode(TIM3);
+//     timer_set_prescalar(TIM3, 36000);
+// 
+//     timer_set_period(TIM3, );
 }
 
 void stepper_set_dir(stepper_s stepper, uint8_t dir) {
@@ -24,7 +38,7 @@ void stepper_step(stepper_s stepper) {
     if (stepper.step.port == GPIOA) {
         delay(3800); // Y
     } else {
-        delay(3600); // X
+        delay(3800); // X
     }
 
     gpio_set(stepper.step.port, stepper.step.pin);

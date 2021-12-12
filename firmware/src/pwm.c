@@ -42,8 +42,6 @@ void pwm_init_timer(volatile uint32_t *reg, uint32_t en, uint32_t timer_peripher
     timer_enable_preload(timer_peripheral);
     timer_continuous_mode(timer_peripheral);
     timer_set_period(timer_peripheral, period);
-
-    // timer_disable_irq(TIM1, EXTI9_5);
     
     timer_enable_break_main_output(TIM1);
     timer_enable_counter(TIM1);

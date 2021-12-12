@@ -16,12 +16,6 @@
 #include <math.h>
 #include <stdlib.h>
 
-enum Pos {
-    MIN,
-    MAX,
-    NONE,
-} x_extreme, y_extreme = NONE;
-
 static volatile int32_t x_pos;
 static volatile int32_t y_pos;
 
@@ -29,30 +23,20 @@ static volatile bool STOP_X = false;
 static volatile bool STOP_Y = false;
 
 void exti9_5_isr(void) {
-    STOP_X = true;
-
     if (!gpio_get(limit_x_min.port, limit_x_min.pin)) {
-        x_extreme = MIN;
+        STOP_X = true;
     }
 
     if (!gpio_get(limit_x_max.port, limit_x_max.pin)) {
-        x_extreme = MAX;
+        STOP_X = true;
     }
+
     exti_reset_request(LIMIT_X_MIN_IRQ);
     exti_reset_request(LIMIT_X_MAX_IRQ);
-
 }
 
 void exti15_10_isr(void) {
     STOP_Y = true;
-
-    if (!gpio_get(limit_y_min.port, limit_y_min.pin)) {
-        y_extreme = MIN;
-    }
-
-    if (!gpio_get(limit_y_max.port, limit_y_max.pin)) {
-        y_extreme = MAX;
-    }
 
     exti_reset_request(LIMIT_Y_MIN_IRQ);
     exti_reset_request(LIMIT_Y_MAX_IRQ);
@@ -150,7 +134,7 @@ void move_linear(int32_t x, int32_t y) {
 
 void move_home(bool x, bool y, bool z) {
     if (z) {
-        move_z_axis(950);
+        move_z_axis(1000);
     }
 
     bool stop_x = false;
@@ -185,12 +169,12 @@ void move_home(bool x, bool y, bool z) {
         }
     }
 
-    delay(1000);
+    delay(2000);
 
     stepper_set_dir(stepper_x, COUNTERCLOCKWISE);
     stepper_set_dir(stepper_y, COUNTERCLOCKWISE);
 
-    for (uint8_t i = 0; i < 20; i++) {
+    for (uint8_t i = 0; i < 40; i++) {
         stepper_step_both();
     }
 }

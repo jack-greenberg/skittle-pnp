@@ -11,11 +11,12 @@ servo_s servo_z = {
     .gpio_port = GPIOA,
 };
 
+// TODO
 servo_s servo_feeder = {
-    .timer = TIM1,
+    .timer = TIM3,
     .output_channel = TIM_OC1,
-    .gpio_output_number = GPIO_TIM1_CH1,
-    .gpio_port = GPIOA,
+    .gpio_output_number = GPIO_TIM3_CH1,
+    .gpio_port = GPIOB,
 };
 
 pin_s solenoid = {
@@ -24,22 +25,22 @@ pin_s solenoid = {
 };
 
 pin_s limit_x_min = {
-    .pin = GPIO7,
-    .port = GPIOB,
-};
-
-pin_s limit_x_max = {
     .pin = GPIO9,
     .port = GPIOB,
 };
 
+pin_s limit_x_max = {
+    .pin = GPIO8,
+    .port = GPIOB,
+};
+
 pin_s limit_y_min = {
-    .pin = GPIO12,
+    .pin = GPIO13,
     .port = GPIOB,
 };
 
 pin_s limit_y_max = {
-    .pin = GPIO13,
+    .pin = GPIO12,
     .port = GPIOB,
 };
 
