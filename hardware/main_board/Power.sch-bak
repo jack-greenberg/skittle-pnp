@@ -1,0 +1,471 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 5
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L power:+12V #PWR0205
+U 1 1 61C0D0D6
+P 4250 2350
+F 0 "#PWR0205" H 4250 2200 50  0001 C CNN
+F 1 "+12V" H 4265 2523 50  0000 C CNN
+F 2 "" H 4250 2350 50  0001 C CNN
+F 3 "" H 4250 2350 50  0001 C CNN
+	1    4250 2350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4250 2350 4250 2400
+Wire Wire Line
+	4250 2400 4400 2400
+Wire Wire Line
+	4400 2400 4400 2500
+Connection ~ 4400 2400
+Wire Wire Line
+	4400 2400 4650 2400
+$Comp
+L power:GND #PWR0207
+U 1 1 61C10DC4
+P 4950 2850
+F 0 "#PWR0207" H 4950 2600 50  0001 C CNN
+F 1 "GND" H 4955 2677 50  0000 C CNN
+F 2 "" H 4950 2850 50  0001 C CNN
+F 3 "" H 4950 2850 50  0001 C CNN
+	1    4950 2850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5250 2400 5600 2400
+Wire Wire Line
+	5600 2400 5600 2500
+Connection ~ 5600 2400
+Wire Wire Line
+	4950 2700 4950 2850
+$Comp
+L power:GND #PWR0206
+U 1 1 61C17268
+P 4400 3000
+F 0 "#PWR0206" H 4400 2750 50  0001 C CNN
+F 1 "GND" H 4405 2827 50  0000 C CNN
+F 2 "" H 4400 3000 50  0001 C CNN
+F 3 "" H 4400 3000 50  0001 C CNN
+	1    4400 3000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 2800 4400 3000
+$Comp
+L power:GND #PWR0208
+U 1 1 61C176B1
+P 5600 3000
+F 0 "#PWR0208" H 5600 2750 50  0001 C CNN
+F 1 "GND" H 5605 2827 50  0000 C CNN
+F 2 "" H 5600 3000 50  0001 C CNN
+F 3 "" H 5600 3000 50  0001 C CNN
+	1    5600 3000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5600 2800 5600 3000
+Text Notes 4500 1950 0    50   ~ 0
+12V - 5V Linear Regulator
+Text GLabel 2100 1650 0    50   Input ~ 0
+PWR_IN
+Text GLabel 2350 1650 2    50   Input ~ 0
+PWR_SW_ON
+Text GLabel 2350 2300 2    50   Input ~ 0
+PWR_SW_OFF
+$Comp
+L power:+12V #PWR0203
+U 1 1 61CB6F7F
+P 1800 2150
+F 0 "#PWR0203" H 1800 2000 50  0001 C CNN
+F 1 "+12V" H 1815 2323 50  0000 C CNN
+F 2 "" H 1800 2150 50  0001 C CNN
+F 3 "" H 1800 2150 50  0001 C CNN
+	1    1800 2150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1800 2150 1800 2300
+Wire Wire Line
+	1800 2300 2350 2300
+Text Notes 1800 1400 0    50   ~ 0
+Power Switch (and ESTOP)
+Wire Wire Line
+	1800 2300 1800 2500
+Connection ~ 1800 2300
+Wire Wire Line
+	1800 2800 1800 2900
+Text Notes 2350 2250 0    50   ~ 0
+Off Side of Power Switch
+Text Notes 2400 1550 0    50   ~ 0
+On Side of Power Switch
+Text Notes 1000 1550 0    50   ~ 0
+12V from the power supply
+$Comp
+L power:GND #PWR0204
+U 1 1 61DB17A4
+P 1800 3650
+F 0 "#PWR0204" H 1800 3400 50  0001 C CNN
+F 1 "GND" H 1805 3477 50  0000 C CNN
+F 2 "" H 1800 3650 50  0001 C CNN
+F 3 "" H 1800 3650 50  0001 C CNN
+	1    1800 3650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6550 2400 6550 2350
+Wire Wire Line
+	6400 2400 6400 2450
+Wire Wire Line
+	5600 2400 6400 2400
+Connection ~ 6400 2400
+Wire Wire Line
+	6400 2400 6550 2400
+Wire Wire Line
+	6400 2750 6400 2800
+$Comp
+L power:GND #PWR0209
+U 1 1 61DBDB3A
+P 6400 3550
+F 0 "#PWR0209" H 6400 3300 50  0001 C CNN
+F 1 "GND" H 6405 3377 50  0000 C CNN
+F 2 "" H 6400 3550 50  0001 C CNN
+F 3 "" H 6400 3550 50  0001 C CNN
+	1    6400 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR0210
+U 1 1 61E49762
+P 6550 2350
+F 0 "#PWR0210" H 6550 2200 50  0001 C CNN
+F 1 "+5V" H 6565 2523 50  0000 C CNN
+F 2 "" H 6550 2350 50  0001 C CNN
+F 3 "" H 6550 2350 50  0001 C CNN
+	1    6550 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Regulator_Linear:LM1117-5.0 U201
+U 1 1 6239189A
+P 4950 2400
+F 0 "U201" H 4950 2642 50  0000 C CNN
+F 1 "LM1117-5.0" H 4950 2551 50  0000 C CNN
+F 2 "skittle_pnp:SOT230P700X180-4N" H 4950 2400 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/lm1117.pdf" H 4950 2400 50  0001 C CNN
+	1    4950 2400
+	1    0    0    -1  
+$EndComp
+Text Notes 4200 3650 0    50   ~ 0
+change caps to this:\nhttps://www.vishay.com/docs/40080/tr3.pdf
+$Comp
+L skittle_pnp:C_10uF+ C201
+U 1 1 62AA4E23
+P 4400 2650
+F 0 "C201" H 4515 2696 50  0000 L CNN
+F 1 "C_10uF+" H 4515 2605 50  0000 L CNN
+F 2 "skittle_pnp:T491C105K050AT" H 4438 2500 50  0001 C CNN
+F 3 "https://www.vishay.com/docs/40080/tr3.pdf" H 4400 2650 50  0001 C CNN
+F 4 "https://www.digikey.com/en/products/detail/vishay-sprague/TR3C106K016C0500/13587248" H 4400 2650 50  0001 C CNN "Purchasing Link"
+F 5 "DK" H 4400 2650 50  0001 C CNN "MFN"
+F 6 "718-TR3C106K016C0500CT-ND" H 4400 2650 50  0001 C CNN "MPN"
+	1    4400 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L skittle_pnp:C_10uF+ C202
+U 1 1 62AA54E6
+P 5600 2650
+F 0 "C202" H 5715 2696 50  0000 L CNN
+F 1 "C_10uF+" H 5715 2605 50  0000 L CNN
+F 2 "skittle_pnp:T491C105K050AT" H 5638 2500 50  0001 C CNN
+F 3 "https://www.vishay.com/docs/40080/tr3.pdf" H 5600 2650 50  0001 C CNN
+F 4 "https://www.digikey.com/en/products/detail/vishay-sprague/TR3C106K016C0500/13587248" H 5600 2650 50  0001 C CNN "Purchasing Link"
+F 5 "DK" H 5600 2650 50  0001 C CNN "MFN"
+F 6 "718-TR3C106K016C0500CT-ND" H 5600 2650 50  0001 C CNN "MPN"
+	1    5600 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L formula:R_200 R203
+U 1 1 62AA9E7D
+P 6400 2600
+F 0 "R203" H 6470 2646 50  0000 L CNN
+F 1 "R_200" H 6470 2555 50  0000 L CNN
+F 2 "footprints:R_0805_OEM" H 6330 2600 50  0001 C CNN
+F 3 "https://www.seielect.com/Catalog/SEI-RMCF_RMCP.pdf" H 6480 2600 50  0001 C CNN
+F 4 "DK" H 6400 2600 60  0001 C CNN "MFN"
+F 5 "RMCF0805JT200RCT-ND" H 6400 2600 60  0001 C CNN "MPN"
+F 6 "https://www.digikey.com/products/en?keywords=RMCF0805JT200RCT-ND" H 6880 3000 60  0001 C CNN "PurchasingLink"
+	1    6400 2600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+12V #PWR0101
+U 1 1 61A75CDA
+P 4200 4600
+F 0 "#PWR0101" H 4200 4450 50  0001 C CNN
+F 1 "+12V" H 4215 4773 50  0000 C CNN
+F 2 "" H 4200 4600 50  0001 C CNN
+F 3 "" H 4200 4600 50  0001 C CNN
+	1    4200 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 4600 4200 4650
+Wire Wire Line
+	4200 4650 4350 4650
+Wire Wire Line
+	4350 4650 4350 4750
+Connection ~ 4350 4650
+Wire Wire Line
+	4350 4650 4600 4650
+$Comp
+L power:GND #PWR0102
+U 1 1 61A75CE5
+P 4900 5100
+F 0 "#PWR0102" H 4900 4850 50  0001 C CNN
+F 1 "GND" H 4905 4927 50  0000 C CNN
+F 2 "" H 4900 5100 50  0001 C CNN
+F 3 "" H 4900 5100 50  0001 C CNN
+	1    4900 5100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5200 4650 5550 4650
+Wire Wire Line
+	5550 4650 5550 4750
+Connection ~ 5550 4650
+Wire Wire Line
+	4900 4950 4900 5100
+$Comp
+L power:GND #PWR0103
+U 1 1 61A75CEF
+P 4350 5250
+F 0 "#PWR0103" H 4350 5000 50  0001 C CNN
+F 1 "GND" H 4355 5077 50  0000 C CNN
+F 2 "" H 4350 5250 50  0001 C CNN
+F 3 "" H 4350 5250 50  0001 C CNN
+	1    4350 5250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4350 5050 4350 5250
+$Comp
+L power:GND #PWR0104
+U 1 1 61A75CF6
+P 5550 5250
+F 0 "#PWR0104" H 5550 5000 50  0001 C CNN
+F 1 "GND" H 5555 5077 50  0000 C CNN
+F 2 "" H 5550 5250 50  0001 C CNN
+F 3 "" H 5550 5250 50  0001 C CNN
+	1    5550 5250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5550 5050 5550 5250
+Text Notes 4450 4200 0    50   ~ 0
+12V - 3V Linear Regulator
+Wire Wire Line
+	6500 4650 6500 4600
+Wire Wire Line
+	6350 4650 6350 4700
+Wire Wire Line
+	5550 4650 6350 4650
+Connection ~ 6350 4650
+Wire Wire Line
+	6350 4650 6500 4650
+Wire Wire Line
+	6350 5000 6350 5100
+$Comp
+L power:GND #PWR0105
+U 1 1 61A75D10
+P 6350 5850
+F 0 "#PWR0105" H 6350 5600 50  0001 C CNN
+F 1 "GND" H 6355 5677 50  0000 C CNN
+F 2 "" H 6350 5850 50  0001 C CNN
+F 3 "" H 6350 5850 50  0001 C CNN
+	1    6350 5850
+	1    0    0    -1  
+$EndComp
+Text Notes 4150 5900 0    50   ~ 0
+change caps to this:\nhttps://www.vishay.com/docs/40080/tr3.pdf
+$Comp
+L skittle_pnp:C_10uF+ C203
+U 1 1 61A75D28
+P 4350 4900
+F 0 "C203" H 4465 4946 50  0000 L CNN
+F 1 "C_10uF+" H 4465 4855 50  0000 L CNN
+F 2 "skittle_pnp:T491C105K050AT" H 4388 4750 50  0001 C CNN
+F 3 "https://www.vishay.com/docs/40080/tr3.pdf" H 4350 4900 50  0001 C CNN
+F 4 "https://www.digikey.com/en/products/detail/vishay-sprague/TR3C106K016C0500/13587248" H 4350 4900 50  0001 C CNN "Purchasing Link"
+F 5 "DK" H 4350 4900 50  0001 C CNN "MFN"
+F 6 "718-TR3C106K016C0500CT-ND" H 4350 4900 50  0001 C CNN "MPN"
+	1    4350 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L skittle_pnp:C_10uF+ C204
+U 1 1 61A75D31
+P 5550 4900
+F 0 "C204" H 5665 4946 50  0000 L CNN
+F 1 "C_10uF+" H 5665 4855 50  0000 L CNN
+F 2 "skittle_pnp:T491C105K050AT" H 5588 4750 50  0001 C CNN
+F 3 "https://www.vishay.com/docs/40080/tr3.pdf" H 5550 4900 50  0001 C CNN
+F 4 "https://www.digikey.com/en/products/detail/vishay-sprague/TR3C106K016C0500/13587248" H 5550 4900 50  0001 C CNN "Purchasing Link"
+F 5 "DK" H 5550 4900 50  0001 C CNN "MFN"
+F 6 "718-TR3C106K016C0500CT-ND" H 5550 4900 50  0001 C CNN "MPN"
+	1    5550 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L formula:R_200 R204
+U 1 1 61A75D3A
+P 6350 4850
+F 0 "R204" H 6420 4896 50  0000 L CNN
+F 1 "R_200" H 6420 4805 50  0000 L CNN
+F 2 "footprints:R_0805_OEM" H 6280 4850 50  0001 C CNN
+F 3 "https://www.seielect.com/Catalog/SEI-RMCF_RMCP.pdf" H 6430 4850 50  0001 C CNN
+F 4 "DK" H 6350 4850 60  0001 C CNN "MFN"
+F 5 "RMCF0805JT200RCT-ND" H 6350 4850 60  0001 C CNN "MPN"
+F 6 "https://www.digikey.com/products/en?keywords=RMCF0805JT200RCT-ND" H 6830 5250 60  0001 C CNN "PurchasingLink"
+	1    6350 4850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Regulator_Linear:LM1117-3.3 U202
+U 1 1 61A77CCC
+P 4900 4650
+F 0 "U202" H 4900 4892 50  0000 C CNN
+F 1 "LM1117-3.3" H 4900 4801 50  0000 C CNN
+F 2 "skittle_pnp:SOT230P700X180-4N" H 4900 4650 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/lm1117.pdf" H 4900 4650 50  0001 C CNN
+	1    4900 4650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6350 5750 6350 5850
+Wire Wire Line
+	6400 3450 6400 3550
+Wire Wire Line
+	1800 3500 1800 3650
+$Comp
+L power:+3.3V #PWR?
+U 1 1 61AEF7DA
+P 6500 4600
+AR Path="/619053FC/61AEF7DA" Ref="#PWR?"  Part="1" 
+AR Path="/61902E4F/61AEF7DA" Ref="#PWR0201"  Part="1" 
+F 0 "#PWR0201" H 6500 4450 50  0001 C CNN
+F 1 "+3.3V" H 6515 4773 50  0000 C CNN
+F 2 "" H 6500 4600 50  0001 C CNN
+F 3 "" H 6500 4600 50  0001 C CNN
+	1    6500 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L formula:R_1K R201
+U 1 1 61AF2A5B
+P 1800 2650
+F 0 "R201" H 1870 2696 50  0000 L CNN
+F 1 "R_1K" H 1870 2605 50  0000 L CNN
+F 2 "footprints:R_0805_OEM" H 1730 2650 50  0001 C CNN
+F 3 "https://www.seielect.com/Catalog/SEI-rncp.pdf" H 1880 2650 50  0001 C CNN
+F 4 "DK" H 1800 2650 60  0001 C CNN "MFN"
+F 5 "RNCP0805FTD1K00CT-ND" H 1800 2650 60  0001 C CNN "MPN"
+F 6 "https://www.digikey.com/products/en?keywords=RNCP0805FTD1K00CT-ND" H 2280 3050 60  0001 C CNN "PurchasingLink"
+	1    1800 2650
+	1    0    0    -1  
+$EndComp
+Text Notes 1650 3350 1    50   ~ 0
+12V Indicator LED
+Text Notes 6200 5600 1    50   ~ 0
+3.3V Indicator LED
+Text Notes 6200 3350 1    50   ~ 0
+5V Indicator LED
+Wire Wire Line
+	2100 1650 2350 1650
+$Comp
+L formula:Test_Point_SMD TP206
+U 1 1 61BCD501
+P 6400 3400
+F 0 "TP206" H 6478 3488 50  0000 L CNN
+F 1 "5V_LED_GND" H 6478 3397 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 6400 3250 50  0001 C CNN
+F 3 "" H 6400 3400 50  0001 C CNN
+	1    6400 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L formula:Test_Point_SMD TP205
+U 1 1 61BC7583
+P 6400 2850
+F 0 "TP205" H 6312 2846 50  0000 R CNN
+F 1 "5V_LED" H 6312 2937 50  0000 R CNN
+F 2 "footprints:Test_Point_SMD" H 6400 2700 50  0001 C CNN
+F 3 "" H 6400 2850 50  0001 C CNN
+	1    6400 2850
+	-1   0    0    1   
+$EndComp
+$Comp
+L formula:Test_Point_SMD TP203
+U 1 1 61BD780B
+P 6350 5150
+F 0 "TP203" H 6262 5146 50  0000 R CNN
+F 1 "3V3_LED" H 6262 5237 50  0000 R CNN
+F 2 "footprints:Test_Point_SMD" H 6350 5000 50  0001 C CNN
+F 3 "" H 6350 5150 50  0001 C CNN
+	1    6350 5150
+	-1   0    0    1   
+$EndComp
+$Comp
+L formula:Test_Point_SMD TP204
+U 1 1 61BDA5E3
+P 6350 5700
+F 0 "TP204" H 6428 5788 50  0000 L CNN
+F 1 "3V3_LED_GND" H 6428 5697 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 6350 5550 50  0001 C CNN
+F 3 "" H 6350 5700 50  0001 C CNN
+	1    6350 5700
+	1    0    0    -1  
+$EndComp
+$Comp
+L formula:Test_Point_SMD TP201
+U 1 1 61BDE1DA
+P 1800 2950
+F 0 "TP201" H 1712 2946 50  0000 R CNN
+F 1 "12V_LED" H 1712 3037 50  0000 R CNN
+F 2 "footprints:Test_Point_SMD" H 1800 2800 50  0001 C CNN
+F 3 "" H 1800 2950 50  0001 C CNN
+	1    1800 2950
+	-1   0    0    1   
+$EndComp
+$Comp
+L formula:Test_Point_SMD TP202
+U 1 1 61BE0ECE
+P 1800 3450
+F 0 "TP202" H 1878 3538 50  0000 L CNN
+F 1 "12V_LED_GND" H 1878 3447 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 1800 3300 50  0001 C CNN
+F 3 "" H 1800 3450 50  0001 C CNN
+	1    1800 3450
+	1    0    0    -1  
+$EndComp
+Text Notes 1750 3250 0    50   ~ 0
+Solder on the LED on the exposed copper
+Text Notes 6400 3150 0    50   ~ 0
+Solder on the LED on the exposed copper
+Text Notes 6350 5450 0    50   ~ 0
+Solder on the LED on the exposed copper
+$EndSCHEMATC
