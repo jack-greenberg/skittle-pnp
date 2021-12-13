@@ -6,7 +6,7 @@
     (tracks 413)
     (zones 0)
     (modules 53)
-    (nets 56)
+    (nets 57)
   )
 
   (page A4)
@@ -152,6 +152,7 @@
   (net 53 MOTOR2_1B)
   (net 54 "/Motor Drivers/MOTOR1_~RESET")
   (net 55 "/Motor Drivers/MOTOR2_~RESET")
+  (net 56 "Net-(J401-Pad18)")
 
   (net_class Default "This is the default net class."
     (clearance 0.2)
@@ -207,6 +208,7 @@
     (add_net MOTOR2_STEP)
     (add_net MOTOR2_~EN)
     (add_net "Net-(F401-Pad1)")
+    (add_net "Net-(J401-Pad18)")
     (add_net "Net-(J406-Pad1)")
     (add_net "Net-(R201-Pad2)")
     (add_net "Net-(R203-Pad2)")
@@ -817,7 +819,7 @@
     (pad 17 thru_hole circle (at 40.64 0 270) (size 2.025 2.025) (drill 1.35) (layers *.Cu *.Mask)
       (net 10 /STM32_and_Connectors/PB9))
     (pad 18 thru_hole circle (at 43.18 0 270) (size 2.025 2.025) (drill 1.35) (layers *.Cu *.Mask)
-      (net 3 +5V))
+      (net 56 "Net-(J401-Pad18)"))
     (pad 19 thru_hole circle (at 45.72 0 270) (size 2.025 2.025) (drill 1.35) (layers *.Cu *.Mask)
       (net 2 GND))
     (pad 20 thru_hole circle (at 48.26 0 270) (size 2.025 2.025) (drill 1.35) (layers *.Cu *.Mask)

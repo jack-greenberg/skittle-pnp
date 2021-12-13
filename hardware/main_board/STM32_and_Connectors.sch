@@ -136,25 +136,10 @@ F 3 "" H 3150 3550 50  0001 C CNN
 	1    3150 3550
 	1    0    0    -1  
 $EndComp
-$Comp
-L power:+5V #PWR0402
-U 1 1 619589F2
-P 3100 1300
-F 0 "#PWR0402" H 3100 1150 50  0001 C CNN
-F 1 "+5V" V 3100 1500 50  0000 C CNN
-F 2 "" H 3100 1300 50  0001 C CNN
-F 3 "" H 3100 1300 50  0001 C CNN
-	1    3100 1300
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	3000 1450 3000 3400
 Wire Wire Line
 	3000 3400 3250 3400
-Wire Wire Line
-	3100 1300 3100 3200
-Wire Wire Line
-	3100 3200 3250 3200
 Wire Wire Line
 	3250 3300 3150 3300
 Wire Wire Line
