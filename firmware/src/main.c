@@ -121,7 +121,7 @@ void task_motion(void *args __attribute__((unused))) {
             } break;
         }
 
-        uart_puts(USART2, "ok\n");
+        uart_puts(USART2, "ok\r\n");
     }
 }
 
@@ -142,8 +142,8 @@ static void usart_setup(int uart) {
     usart_set_databits(uart, 8);
     usart_set_stopbits(uart, USART_STOPBITS_1);
     usart_set_mode(uart, USART_MODE_TX_RX);
-    usart_set_parity(uart, USART_PARITY_NONE);
-    usart_set_flow_control(uart, USART_FLOWCONTROL_NONE);
+    // usart_set_parity(uart, USART_PARITY_NONE);
+    // usart_set_flow_control(uart, USART_FLOWCONTROL_NONE);
 
     switch (uart) {
         case USART1: {
@@ -206,12 +206,14 @@ int main(void) {
      * Servos
      */
     servo_init(servo_z, Z_MIN);
-    servo_init(servo_feeder, 0);
+    servo_set_position(servo_z, 950);
+    servo_init(servo_feeder, 950);
+    servo_set_position(servo_feeder, 950);
 
     /*
      * Valve
      */
-    gpio_set_mode(solenoid.port, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, solenoid.pin);
+    gpio_set_mode(solenoid.port, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, solenoid.pin);
 
     /*
      * Synchronization

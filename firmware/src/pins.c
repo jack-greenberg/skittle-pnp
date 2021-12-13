@@ -13,9 +13,9 @@ servo_s servo_z = {
 
 // TODO
 servo_s servo_feeder = {
-    .timer = TIM3,
+    .timer = TIM4,
     .output_channel = TIM_OC1,
-    .gpio_output_number = GPIO_TIM3_CH1,
+    .gpio_output_number = GPIO_TIM4_CH1,
     .gpio_port = GPIOB,
 };
 

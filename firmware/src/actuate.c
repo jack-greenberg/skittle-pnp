@@ -43,9 +43,6 @@ void exti15_10_isr(void) {
 }
 
 void move_linear(int32_t x, int32_t y) {
-    // For horizontal, move 
-
-    // TODO: absolute positioning
     int32_t delta_x = x;// - x_pos;
     int32_t delta_y = y;// - y_pos;
 
@@ -162,8 +159,6 @@ void move_home(bool x, bool y, bool z) {
             stepper_step_both();
         }
 
-        delay(2700);
-
         if (stop_x && stop_y) {
             break;
         }
@@ -174,8 +169,14 @@ void move_home(bool x, bool y, bool z) {
     stepper_set_dir(stepper_x, COUNTERCLOCKWISE);
     stepper_set_dir(stepper_y, COUNTERCLOCKWISE);
 
-    for (uint8_t i = 0; i < 40; i++) {
-        stepper_step_both();
+    for (uint8_t i = 0; i < 35; i++) {
+        stepper_step(stepper_x);
+        delay(20000);
+    }
+
+    for (uint8_t i = 0; i < 15; i++) {
+        stepper_step(stepper_y);
+        delay(20000);
     }
 }
 
@@ -212,8 +213,8 @@ void enable_motors(bool enabled) {
 
 void open_feeder(bool open) {
     if (open) {
-        servo_set_position(servo_feeder, 0);
+        servo_set_position(servo_feeder, 950);
     } else {
-        servo_set_position(servo_feeder, 95);
+        servo_set_position(servo_feeder, 2100);
     }
 }

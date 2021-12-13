@@ -26,6 +26,7 @@ void pwm_init_timer(volatile uint32_t *reg, uint32_t en, uint32_t timer_peripher
 {
     /* Enable timer clock. */
     rcc_periph_clock_enable(RCC_TIM1);
+    rcc_periph_clock_enable(RCC_TIM4);
 
     /* Set the timers global mode to:
     * - use no divider

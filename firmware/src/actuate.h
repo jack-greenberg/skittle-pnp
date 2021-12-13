@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define Z_MIN (1000)
+#define Z_MIN (950)
 #define Z_MAX (1400)
 
 /*
