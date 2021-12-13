@@ -1,0 +1,1058 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 4 5
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector_Generic:Conn_01x20 J402
+U 1 1 6190757F
+P 4250 2500
+F 0 "J402" H 4168 1275 50  0000 C CNN
+F 1 "Conn_01x20" H 4168 1366 50  0000 C CNN
+F 2 "skittle_pnp:RHDR20W80P0X254_1X20_5130X254X880P" H 4250 2500 50  0001 C CNN
+F 3 "~" H 4250 2500 50  0001 C CNN
+	1    4250 2500
+	-1   0    0    1   
+$EndComp
+Text Notes 2250 750  0    79   ~ 0
+Shield for the STM32 Blue Pill (FEMALE, Vertical)
+Text Notes 3550 1100 0    50   ~ 0
+USB Micro-B Side
+$Comp
+L power:GND #PWR0404
+U 1 1 61922F09
+P 4550 3500
+F 0 "#PWR0404" H 4550 3250 50  0001 C CNN
+F 1 "GND" H 4555 3327 50  0000 C CNN
+F 2 "" H 4550 3500 50  0001 C CNN
+F 3 "" H 4550 3500 50  0001 C CNN
+	1    4550 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 1600 4550 1600
+Wire Wire Line
+	4450 1500 4550 1500
+Wire Wire Line
+	4550 1500 4550 1600
+Connection ~ 4550 1600
+Wire Wire Line
+	4550 1600 4550 3500
+$Comp
+L power:+3.3V #PWR0405
+U 1 1 6192CFBF
+P 4650 1500
+F 0 "#PWR0405" H 4650 1350 50  0001 C CNN
+F 1 "+3.3V" V 4650 1750 50  0000 C CNN
+F 2 "" H 4650 1500 50  0001 C CNN
+F 3 "" H 4650 1500 50  0001 C CNN
+	1    4650 1500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 1700 4650 1700
+Wire Wire Line
+	4650 1700 4650 1500
+Text Label 4950 2100 0    50   ~ 0
+PB1
+Text Label 4950 2200 0    50   ~ 0
+PB0
+Text Label 4950 2400 0    50   ~ 0
+PA6(MISO)
+Text Label 4950 2500 0    50   ~ 0
+PA5(SCK)
+Text Label 4950 2600 0    50   ~ 0
+PA4(SS)
+Text Label 4950 2700 0    50   ~ 0
+PA3(RxD)
+Text Label 4950 2800 0    50   ~ 0
+PA2(TxD)
+Text Label 4950 2900 0    50   ~ 0
+PA1
+Text Label 4950 3000 0    50   ~ 0
+PA0(PWM)
+Text Label 4950 3100 0    50   ~ 0
+PC15(OSC32_OUT)
+Text Label 4950 3200 0    50   ~ 0
+PC14(OSC32_IN)
+Text Label 4950 3300 0    50   ~ 0
+PC13_LED
+Wire Wire Line
+	4450 3100 4950 3100
+Wire Wire Line
+	4450 3200 4950 3200
+Wire Wire Line
+	4450 3300 4950 3300
+Text Label 4950 2300 0    50   ~ 0
+PA7(MOSI)
+Text Label 4950 2000 0    50   ~ 0
+PB10
+Text Label 4950 1900 0    50   ~ 0
+PB11
+Wire Wire Line
+	4450 1800 4950 1800
+Text Label 4950 1800 0    50   ~ 0
+RESET
+$Comp
+L power:+BATT #PWR0406
+U 1 1 6193178F
+P 4750 1650
+F 0 "#PWR0406" H 4750 1500 50  0001 C CNN
+F 1 "+BATT" V 4750 1900 50  0000 C CNN
+F 2 "" H 4750 1650 50  0001 C CNN
+F 3 "" H 4750 1650 50  0001 C CNN
+	1    4750 1650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR0401
+U 1 1 61955A8A
+P 3000 1450
+F 0 "#PWR0401" H 3000 1300 50  0001 C CNN
+F 1 "+3.3V" V 3000 1700 50  0000 C CNN
+F 2 "" H 3000 1450 50  0001 C CNN
+F 3 "" H 3000 1450 50  0001 C CNN
+	1    3000 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0403
+U 1 1 61957D53
+P 3150 3550
+F 0 "#PWR0403" H 3150 3300 50  0001 C CNN
+F 1 "GND" H 3155 3377 50  0000 C CNN
+F 2 "" H 3150 3550 50  0001 C CNN
+F 3 "" H 3150 3550 50  0001 C CNN
+	1    3150 3550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3000 1450 3000 3400
+Wire Wire Line
+	3000 3400 3250 3400
+Wire Wire Line
+	3250 3300 3150 3300
+Wire Wire Line
+	3150 3300 3150 3550
+Text Label 2850 1600 2    50   ~ 0
+(SCK)PB13
+Text Label 2850 1700 2    50   ~ 0
+(MISO)PB14
+Text Label 2850 1800 2    50   ~ 0
+(MOSI)PB15
+Text Label 2850 1900 2    50   ~ 0
+PA8
+Text Label 2850 2000 2    50   ~ 0
+(TxD)PA9
+Text Label 2850 2100 2    50   ~ 0
+(RxD)PA10
+Text Label 2850 2200 2    50   ~ 0
+PA11
+Text Label 2850 2300 2    50   ~ 0
+PA12
+Text Label 2850 2400 2    50   ~ 0
+PA15
+Text Label 2850 2500 2    50   ~ 0
+(SWO)PB3
+Text Label 2850 2600 2    50   ~ 0
+PB4
+Text Label 2850 2700 2    50   ~ 0
+PB5
+Text Label 2850 2800 2    50   ~ 0
+(SCL)PB6
+Text Label 2850 2900 2    50   ~ 0
+(SDA)PB7
+Text Label 2850 3000 2    50   ~ 0
+PB8
+Text Label 2850 3100 2    50   ~ 0
+PB9
+Wire Wire Line
+	4450 3400 4750 3400
+Wire Wire Line
+	4750 3400 4750 1650
+Text Notes 9400 1550 0    50   ~ 0
+PA0 - PA7  \nPB0 - PB1\n\nPins can act as ADCs \nwith 12-bit resolution
+Text Notes 9350 1250 2    50   ~ 10
+Analog Pins: 
+Text Notes 9350 1800 2    50   ~ 10
+GPIOs: 
+Text Notes 9400 2200 0    50   ~ 0
+PA0 - PA15\nPB0 - PB15\nPC13 - PB15\n\nGeneral-purpose I/O pins\nNote that PC13 is the \non-board LED. 
+Text Notes 9350 2450 2    50   ~ 10
+PWM Capable:
+Text Notes 9400 2700 0    50   ~ 0
+PA0 - PA3\nPA6 - PA10\nPB0 - PB1\nPB6 - PB9
+Text Notes 9350 3000 2    50   ~ 10
+External Interrupts Capability:
+Text Notes 9400 3150 0    50   ~ 0
+PA0 – PA15\nPB0 – PB15\nPC13 – PC15
+Wire Notes Line
+	8150 1100 8150 3200
+Wire Notes Line
+	8150 3200 10450 3200
+Wire Notes Line
+	10450 3200 10450 1100
+Wire Notes Line
+	10450 1100 8150 1100
+Text Notes 8150 1050 0    50   ~ 10
+STM32 Blue Pill Pinout
+Text Notes 2400 2000 2    50   ~ 0
+USART 1
+Text Notes 5550 2500 2    50   ~ 0
+SPI 1
+Text Label 2850 1500 2    50   ~ 0
+(SS)PB12
+Text Notes 2450 1500 2    50   ~ 0
+SPI 2
+Text Notes 8150 900  0    50   ~ 0
+Operating Voltage: 3.3V\nDC source/sink from I/O pins: 6mA
+Text Notes 2500 2800 2    50   ~ 0
+I2C 1
+Wire Wire Line
+	4450 2400 5750 2400
+Wire Wire Line
+	4450 2300 5750 2300
+Wire Wire Line
+	4450 2200 5750 2200
+Wire Wire Line
+	4450 2100 5750 2100
+Wire Wire Line
+	4450 2000 5750 2000
+Wire Wire Line
+	4450 1900 5750 1900
+Wire Wire Line
+	2200 3100 3250 3100
+Wire Wire Line
+	2200 3000 3250 3000
+Text GLabel 4350 5850 2    50   Output ~ 0
+MOTOR2_2B
+Text GLabel 4350 5950 2    50   Output ~ 0
+MOTOR2_2A
+Text GLabel 4350 6050 2    50   Output ~ 0
+MOTOR2_1A
+Text GLabel 4350 6150 2    50   Output ~ 0
+MOTOR2_1B
+Wire Wire Line
+	4350 6150 4250 6150
+Wire Wire Line
+	4350 6050 4250 6050
+Wire Wire Line
+	4350 5950 4250 5950
+Wire Wire Line
+	4350 5850 4250 5850
+Text GLabel 4350 4950 2    50   Output ~ 0
+MOTOR1_2B
+Text GLabel 4350 5050 2    50   Output ~ 0
+MOTOR1_2A
+Text GLabel 4350 5150 2    50   Output ~ 0
+MOTOR1_1A
+Text GLabel 4350 5250 2    50   Output ~ 0
+MOTOR1_1B
+Wire Wire Line
+	4350 5250 4250 5250
+Wire Wire Line
+	4350 5150 4250 5150
+Wire Wire Line
+	4350 5050 4250 5050
+Wire Wire Line
+	4350 4950 4250 4950
+$Comp
+L power:GND #PWR0415
+U 1 1 61BF9D1C
+P 6450 5300
+F 0 "#PWR0415" H 6450 5050 50  0001 C CNN
+F 1 "GND" H 6455 5127 50  0000 C CNN
+F 2 "" H 6450 5300 50  0001 C CNN
+F 3 "" H 6450 5300 50  0001 C CNN
+	1    6450 5300
+	1    0    0    -1  
+$EndComp
+$Comp
+L formula:F_1.1A_12V F401
+U 1 1 61C1F190
+P 6050 4950
+F 0 "F401" V 6247 4950 50  0000 C CNN
+F 1 "F_1.1A_12V" V 6156 4950 50  0000 C CNN
+F 2 "skittle_pnp:1206L075SLYR" V 5980 4950 50  0001 C CNN
+F 3 "http://www.littelfuse.com/~/media/electronics/datasheets/resettable_ptcs/littelfuse_ptc_lorho_datasheet.pdf.pdf" V 6130 4950 50  0001 C CNN
+F 4 "DK" H 6050 4950 60  0001 C CNN "MFN"
+F 5 "F5764CT-ND" H 6050 4950 60  0001 C CNN "MPN"
+F 6 "https://www.digikey.com/products/en?keywords=F5764CT-ND" V 6530 5350 60  0001 C CNN "PurchasingLink"
+	1    6050 4950
+	0    -1   -1   0   
+$EndComp
+Text GLabel 5950 5050 2    50   Input ~ 0
+PWR_SW_ON
+Text GLabel 5950 5150 2    50   Input ~ 0
+PWR_SW_OFF
+Wire Wire Line
+	5750 4950 5900 4950
+Wire Wire Line
+	5750 5250 6450 5250
+Wire Wire Line
+	6450 5250 6450 5300
+Wire Wire Line
+	5750 5050 5950 5050
+Wire Wire Line
+	5750 5150 5950 5150
+Text GLabel 6400 4950 2    50   Input ~ 0
+PWR_IN
+Text Notes 5350 2700 0    50   ~ 0
+USART 2
+Wire Wire Line
+	4450 3000 6500 3000
+Wire Wire Line
+	4450 2900 5750 2900
+Wire Wire Line
+	2200 2700 3250 2700
+Wire Wire Line
+	2200 2600 3250 2600
+Wire Wire Line
+	2200 2200 3250 2200
+Wire Wire Line
+	2200 2300 3250 2300
+Wire Wire Line
+	2200 2400 3250 2400
+Wire Wire Line
+	2200 2500 3250 2500
+Text Label 2200 6950 0    50   ~ 0
+(SCL)PB6
+Text Label 2200 7050 0    50   ~ 0
+(SDA)PB7
+$Comp
+L power:+5V #PWR0410
+U 1 1 61E50802
+P 2400 6700
+F 0 "#PWR0410" H 2400 6550 50  0001 C CNN
+F 1 "+5V" H 2415 6873 50  0000 C CNN
+F 2 "" H 2400 6700 50  0001 C CNN
+F 3 "" H 2400 6700 50  0001 C CNN
+	1    2400 6700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2000 6850 2400 6850
+Wire Wire Line
+	2400 6850 2400 6700
+$Comp
+L power:GND #PWR0407
+U 1 1 61E55D74
+P 2350 7200
+F 0 "#PWR0407" H 2350 6950 50  0001 C CNN
+F 1 "GND" H 2355 7027 50  0000 C CNN
+F 2 "" H 2350 7200 50  0001 C CNN
+F 3 "" H 2350 7200 50  0001 C CNN
+	1    2350 7200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2000 7150 2350 7150
+Wire Wire Line
+	2350 7150 2350 7200
+Wire Wire Line
+	2000 6950 2200 6950
+Wire Wire Line
+	2200 7050 2000 7050
+Text Notes 1150 7100 0    50   ~ 0
+I2C Connector \nfor LCD Screen
+$Comp
+L formula:Test_Point_SMD TP410
+U 1 1 61E87761
+P 6550 2500
+F 0 "TP410" V 6550 2850 50  0000 L CNN
+F 1 "PA5" V 6550 2700 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 6550 2350 50  0001 C CNN
+F 3 "" H 6550 2500 50  0001 C CNN
+	1    6550 2500
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4450 2500 6500 2500
+$Comp
+L formula:Test_Point_SMD TP408
+U 1 1 61E8EBA9
+P 6350 2600
+F 0 "TP408" V 6350 2950 50  0000 L CNN
+F 1 "PA4" V 6350 2800 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 6350 2450 50  0001 C CNN
+F 3 "" H 6350 2600 50  0001 C CNN
+	1    6350 2600
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4450 2600 6300 2600
+Text Notes 6550 2400 0    50   ~ 0
+exposed copper \nfor additional pins
+$Comp
+L formula:Test_Point_SMD TP401
+U 1 1 61EA7FD3
+P 1450 2800
+F 0 "TP401" V 1450 2950 50  0000 L CNN
+F 1 "PB6" V 1450 3200 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 1450 2650 50  0001 C CNN
+F 3 "" H 1450 2800 50  0001 C CNN
+	1    1450 2800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L formula:Test_Point_SMD TP405
+U 1 1 61EA8958
+P 1550 2900
+F 0 "TP405" V 1550 3100 50  0000 L CNN
+F 1 "PB7" V 1550 3350 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 1550 2750 50  0001 C CNN
+F 3 "" H 1550 2900 50  0001 C CNN
+	1    1550 2900
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1500 2800 3250 2800
+Wire Wire Line
+	1600 2900 3250 2900
+Text Notes 700  2700 0    50   ~ 0
+exposed copper \nfor additional pins\n(I2C pins, use ONLY \nif I2C is not used)
+$Comp
+L formula:Test_Point_SMD TP402
+U 1 1 61F27C51
+P 1500 1700
+F 0 "TP402" V 1500 1900 50  0000 L CNN
+F 1 "PB14" V 1500 2150 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 1500 1550 50  0001 C CNN
+F 3 "" H 1500 1700 50  0001 C CNN
+	1    1500 1700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L formula:Test_Point_SMD TP406
+U 1 1 61F27E7D
+P 1700 1800
+F 0 "TP406" V 1700 2000 50  0000 L CNN
+F 1 "PB15" V 1700 2250 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 1700 1650 50  0001 C CNN
+F 3 "" H 1700 1800 50  0001 C CNN
+	1    1700 1800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L formula:Test_Point_SMD TP403
+U 1 1 61F280D7
+P 6550 3000
+F 0 "TP403" V 6550 3200 50  0000 L CNN
+F 1 "PA0" V 6550 3450 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 6550 2850 50  0001 C CNN
+F 3 "" H 6550 3000 50  0001 C CNN
+	1    6550 3000
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1550 1700 3250 1700
+Wire Wire Line
+	1750 1800 3250 1800
+Wire Wire Line
+	2200 1900 3250 1900
+Text Label 5900 5950 0    50   ~ 0
+PUMP_GND
+Text Label 4350 4450 0    50   ~ 0
+SERVO_PWM
+$Comp
+L Connector:Screw_Terminal_01x04 J409
+U 1 1 61F77CD1
+P 5550 6050
+F 0 "J409" H 5500 5650 50  0000 L CNN
+F 1 "SKITTLE PICKUP" H 5250 5750 50  0000 L CNN
+F 2 "skittle_pnp:CUI_TB006-508-04BE" H 5550 6050 50  0001 C CNN
+F 3 "~" H 5550 6050 50  0001 C CNN
+	1    5550 6050
+	-1   0    0    1   
+$EndComp
+$Comp
+L formula:Test_Point_SMD TP411
+U 1 1 6213BFCC
+P 6550 2700
+F 0 "TP411" V 6550 3050 50  0000 L CNN
+F 1 "PA3" V 6550 2900 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 6550 2550 50  0001 C CNN
+F 3 "" H 6550 2700 50  0001 C CNN
+	1    6550 2700
+	0    1    1    0   
+$EndComp
+$Comp
+L formula:Test_Point_SMD TP409
+U 1 1 621451D4
+P 6350 2800
+F 0 "TP409" V 6350 3150 50  0000 L CNN
+F 1 "PA2" V 6350 3000 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 6350 2650 50  0001 C CNN
+F 3 "" H 6350 2800 50  0001 C CNN
+	1    6350 2800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4450 2700 6500 2700
+Wire Wire Line
+	4450 2800 6300 2800
+$Comp
+L formula:Test_Point_SMD TP407
+U 1 1 62150427
+P 1700 2000
+F 0 "TP407" V 1700 2200 50  0000 L CNN
+F 1 "PA9" V 1700 2450 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 1700 1850 50  0001 C CNN
+F 3 "" H 1700 2000 50  0001 C CNN
+	1    1700 2000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L formula:Test_Point_SMD TP404
+U 1 1 62150879
+P 1500 2100
+F 0 "TP404" V 1500 2300 50  0000 L CNN
+F 1 "PA10" V 1500 2550 50  0000 L CNN
+F 2 "footprints:Test_Point_SMD" H 1500 1950 50  0001 C CNN
+F 3 "" H 1500 2100 50  0001 C CNN
+	1    1500 2100
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1750 2000 3250 2000
+Wire Wire Line
+	1550 2100 3250 2100
+$Comp
+L power:+5V #PWR0412
+U 1 1 62164327
+P 2450 5550
+F 0 "#PWR0412" H 2450 5400 50  0001 C CNN
+F 1 "+5V" H 2465 5723 50  0000 C CNN
+F 2 "" H 2450 5550 50  0001 C CNN
+F 3 "" H 2450 5550 50  0001 C CNN
+	1    2450 5550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2050 5700 2450 5700
+Wire Wire Line
+	2450 5700 2450 5550
+$Comp
+L power:GND #PWR0409
+U 1 1 6216432F
+P 2400 6050
+F 0 "#PWR0409" H 2400 5800 50  0001 C CNN
+F 1 "GND" H 2405 5877 50  0000 C CNN
+F 2 "" H 2400 6050 50  0001 C CNN
+F 3 "" H 2400 6050 50  0001 C CNN
+	1    2400 6050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2050 6000 2400 6000
+Wire Wire Line
+	2400 6000 2400 6050
+Wire Wire Line
+	2050 5800 2250 5800
+Wire Wire Line
+	2250 5900 2050 5900
+Text Label 2250 5800 0    50   ~ 0
+PA3(RxD)
+Text Label 2250 5900 0    50   ~ 0
+PA2(TxD)
+Text Notes 1750 6000 1    50   ~ 0
+USART 2
+$Comp
+L power:+5V #PWR0411
+U 1 1 62181BCD
+P 2450 4450
+F 0 "#PWR0411" H 2450 4300 50  0001 C CNN
+F 1 "+5V" H 2465 4623 50  0000 C CNN
+F 2 "" H 2450 4450 50  0001 C CNN
+F 3 "" H 2450 4450 50  0001 C CNN
+	1    2450 4450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2050 4600 2450 4600
+Wire Wire Line
+	2450 4600 2450 4450
+$Comp
+L power:GND #PWR0408
+U 1 1 62181BD5
+P 2400 4950
+F 0 "#PWR0408" H 2400 4700 50  0001 C CNN
+F 1 "GND" H 2405 4777 50  0000 C CNN
+F 2 "" H 2400 4950 50  0001 C CNN
+F 3 "" H 2400 4950 50  0001 C CNN
+	1    2400 4950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2050 4900 2400 4900
+Wire Wire Line
+	2400 4900 2400 4950
+Wire Wire Line
+	2050 4700 2250 4700
+Wire Wire Line
+	2250 4800 2050 4800
+Text Label 2250 4800 0    50   ~ 0
+(TxD)PA9
+Text Label 2250 4700 0    50   ~ 0
+(RxD)PA10
+Text Notes 1750 4600 3    50   ~ 0
+USART 1
+Text Notes 850  4050 0    79   ~ 0
+Connectors for Communication (I2C, USART)
+Wire Notes Line
+	650  3850 650  7550
+Wire Notes Line
+	650  7550 3650 7550
+Wire Notes Line
+	3650 7550 3650 3850
+Wire Notes Line
+	3650 3850 650  3850
+Wire Wire Line
+	2200 1500 3250 1500
+Wire Wire Line
+	3250 1600 2200 1600
+Text Label 5900 5850 0    50   ~ 0
+PUMP_PWR
+$Comp
+L power:+12V #PWR0416
+U 1 1 622F585D
+P 6650 5750
+F 0 "#PWR0416" H 6650 5600 50  0001 C CNN
+F 1 "+12V" H 6665 5923 50  0000 C CNN
+F 2 "" H 6650 5750 50  0001 C CNN
+F 3 "" H 6650 5750 50  0001 C CNN
+	1    6650 5750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6650 5850 6650 5750
+Wire Wire Line
+	5750 5850 6650 5850
+$Comp
+L Connector:Screw_Terminal_01x04 J408
+U 1 1 61C4A68E
+P 5550 5150
+F 0 "J408" H 5550 4750 50  0000 C CNN
+F 1 "POWER" H 5550 4850 50  0000 C CNN
+F 2 "skittle_pnp:CUI_TB006-508-04BE" H 5550 5150 50  0001 C CNN
+F 3 "~" H 5550 5150 50  0001 C CNN
+	1    5550 5150
+	-1   0    0    1   
+$EndComp
+Text Label 2200 1900 2    50   ~ 0
+SERVO_PWM
+Text Label 4350 4250 0    50   ~ 0
+SERVO_PWR
+Text Label 4350 4350 0    50   ~ 0
+SERVO_GND
+$Comp
+L power:GND #PWR0419
+U 1 1 623D2737
+P 4950 4400
+F 0 "#PWR0419" H 4950 4150 50  0001 C CNN
+F 1 "GND" H 4955 4227 50  0000 C CNN
+F 2 "" H 4950 4400 50  0001 C CNN
+F 3 "" H 4950 4400 50  0001 C CNN
+	1    4950 4400
+	1    0    0    -1  
+$EndComp
+NoConn ~ 4250 4550
+$Comp
+L power:+5V #PWR0418
+U 1 1 62406042
+P 4950 4150
+F 0 "#PWR0418" H 4950 4000 50  0001 C CNN
+F 1 "+5V" H 4965 4323 50  0000 C CNN
+F 2 "" H 4950 4150 50  0001 C CNN
+F 3 "" H 4950 4150 50  0001 C CNN
+	1    4950 4150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4950 4250 4950 4150
+Wire Wire Line
+	4250 4250 4950 4250
+Text Label 9300 4950 2    50   ~ 0
+X_LIMIT_MAX
+Text Label 10650 4950 2    50   ~ 0
+Y_LIMIT_MAX
+Text Label 9950 4950 2    50   ~ 0
+Y_LIMIT_MIN
+Wire Wire Line
+	4250 4350 4950 4350
+Wire Wire Line
+	4950 4350 4950 4400
+Wire Wire Line
+	4250 4450 4350 4450
+Text Notes 800  1600 0    50   ~ 0
+exposed copper \nfor additional pins
+$Comp
+L Connector_Generic:Conn_01x08 J412
+U 1 1 62697A56
+P 7450 5650
+F 0 "J412" H 7368 5025 50  0000 C CNN
+F 1 "LIMIT SWITCHES" H 7368 5116 50  0000 C CNN
+F 2 "skittle_pnp:RHDR8W80P0X254_1X8_2082X254X850P" H 7450 5650 50  0001 C CNN
+F 3 "~" H 7450 5650 50  0001 C CNN
+	1    7450 5650
+	-1   0    0    1   
+$EndComp
+Text Label 7750 5250 0    50   ~ 0
+X_LIMIT_MIN_PWR
+Text Label 7750 5350 0    50   ~ 0
+X_LIMIT_MIN_GND
+Text Label 7750 5450 0    50   ~ 0
+X_LIMIT_MAX_PWR
+Text Label 7750 5550 0    50   ~ 0
+X_LIMIT_MAX_GND
+Text Label 7750 5650 0    50   ~ 0
+Y_LIMIT_MIN_PWR
+Text Label 7750 5750 0    50   ~ 0
+Y_LIMIT_MIN_GND
+Text Label 7750 5850 0    50   ~ 0
+Y_LIMIT_MAX_PWR
+Text Label 7750 5950 0    50   ~ 0
+Y_LIMIT_MAX_GND
+$Comp
+L formula:R_10K R403
+U 1 1 62744736
+P 8700 4600
+F 0 "R403" H 8770 4646 50  0000 L CNN
+F 1 "R_10K" H 8770 4555 50  0000 L CNN
+F 2 "footprints:R_0805_OEM" H 8630 4600 50  0001 C CNN
+F 3 "http://www.bourns.com/data/global/pdfs/CRS.pdf" H 8780 4600 50  0001 C CNN
+F 4 "DK" H 8700 4600 60  0001 C CNN "MFN"
+F 5 "CRS0805-FX-1002ELFCT-ND" H 8700 4600 60  0001 C CNN "MPN"
+F 6 "https://www.digikey.com/products/en?keywords=CRS0805-FX-1002ELFCT-ND" H 9180 5000 60  0001 C CNN "PurchasingLink"
+	1    8700 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L formula:R_10K R404
+U 1 1 62744C0A
+P 9400 4600
+F 0 "R404" H 9470 4646 50  0000 L CNN
+F 1 "R_10K" H 9470 4555 50  0000 L CNN
+F 2 "footprints:R_0805_OEM" H 9330 4600 50  0001 C CNN
+F 3 "http://www.bourns.com/data/global/pdfs/CRS.pdf" H 9480 4600 50  0001 C CNN
+F 4 "DK" H 9400 4600 60  0001 C CNN "MFN"
+F 5 "CRS0805-FX-1002ELFCT-ND" H 9400 4600 60  0001 C CNN "MPN"
+F 6 "https://www.digikey.com/products/en?keywords=CRS0805-FX-1002ELFCT-ND" H 9880 5000 60  0001 C CNN "PurchasingLink"
+	1    9400 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L formula:R_10K R405
+U 1 1 62745254
+P 10050 4600
+F 0 "R405" H 10120 4646 50  0000 L CNN
+F 1 "R_10K" H 10120 4555 50  0000 L CNN
+F 2 "footprints:R_0805_OEM" H 9980 4600 50  0001 C CNN
+F 3 "http://www.bourns.com/data/global/pdfs/CRS.pdf" H 10130 4600 50  0001 C CNN
+F 4 "DK" H 10050 4600 60  0001 C CNN "MFN"
+F 5 "CRS0805-FX-1002ELFCT-ND" H 10050 4600 60  0001 C CNN "MPN"
+F 6 "https://www.digikey.com/products/en?keywords=CRS0805-FX-1002ELFCT-ND" H 10530 5000 60  0001 C CNN "PurchasingLink"
+	1    10050 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L formula:R_10K R406
+U 1 1 6274555F
+P 10750 4600
+F 0 "R406" H 10820 4646 50  0000 L CNN
+F 1 "R_10K" H 10820 4555 50  0000 L CNN
+F 2 "footprints:R_0805_OEM" H 10680 4600 50  0001 C CNN
+F 3 "http://www.bourns.com/data/global/pdfs/CRS.pdf" H 10830 4600 50  0001 C CNN
+F 4 "DK" H 10750 4600 60  0001 C CNN "MFN"
+F 5 "CRS0805-FX-1002ELFCT-ND" H 10750 4600 60  0001 C CNN "MPN"
+F 6 "https://www.digikey.com/products/en?keywords=CRS0805-FX-1002ELFCT-ND" H 11230 5000 60  0001 C CNN "PurchasingLink"
+	1    10750 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7650 5250 8700 5250
+Wire Wire Line
+	7650 5850 10750 5850
+$Comp
+L power:GND #PWR0420
+U 1 1 62759E4C
+P 8600 6100
+F 0 "#PWR0420" H 8600 5850 50  0001 C CNN
+F 1 "GND" H 8605 5927 50  0000 C CNN
+F 2 "" H 8600 6100 50  0001 C CNN
+F 3 "" H 8600 6100 50  0001 C CNN
+	1    8600 6100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8600 5350 8600 5550
+Wire Wire Line
+	7650 5350 8600 5350
+Wire Wire Line
+	7650 5550 8600 5550
+Connection ~ 8600 5550
+Wire Wire Line
+	8600 5550 8600 5750
+Wire Wire Line
+	7650 5750 8600 5750
+Connection ~ 8600 5750
+Wire Wire Line
+	7650 5950 8600 5950
+Wire Wire Line
+	8600 5750 8600 5950
+Connection ~ 8600 5950
+Wire Wire Line
+	8600 5950 8600 6100
+$Comp
+L power:+3.3V #PWR0421
+U 1 1 6276F4EB
+P 9750 4100
+F 0 "#PWR0421" H 9750 3950 50  0001 C CNN
+F 1 "+3.3V" H 9765 4273 50  0000 C CNN
+F 2 "" H 9750 4100 50  0001 C CNN
+F 3 "" H 9750 4100 50  0001 C CNN
+	1    9750 4100
+	1    0    0    -1  
+$EndComp
+Text GLabel 5900 6150 2    50   Input ~ 0
+VALVE_PWR
+Wire Wire Line
+	6650 5950 6650 6050
+Wire Wire Line
+	5750 5950 6650 5950
+Wire Wire Line
+	5750 6150 5900 6150
+Wire Notes Line
+	3700 3850 3700 6500
+Wire Notes Line
+	3700 6500 6850 6500
+Wire Notes Line
+	6850 6500 6850 3850
+Wire Notes Line
+	6850 3850 3700 3850
+Wire Notes Line
+	650  3800 7350 3800
+Wire Notes Line
+	7350 3800 7350 550 
+Wire Notes Line
+	7350 550  650  550 
+Wire Notes Line
+	650  550  650  3800
+Text Label 8600 4950 2    50   ~ 0
+X_LIMIT_MIN
+Wire Wire Line
+	10750 4750 10750 4950
+Wire Wire Line
+	10050 4750 10050 4950
+Wire Wire Line
+	7650 5650 10050 5650
+Wire Wire Line
+	9400 5450 9400 4950
+Wire Wire Line
+	7650 5450 9400 5450
+Wire Wire Line
+	8700 5250 8700 4950
+Wire Wire Line
+	8600 4950 8700 4950
+Connection ~ 8700 4950
+Wire Wire Line
+	8700 4950 8700 4750
+Wire Wire Line
+	9300 4950 9400 4950
+Connection ~ 9400 4950
+Wire Wire Line
+	9400 4950 9400 4750
+Wire Wire Line
+	9950 4950 10050 4950
+Connection ~ 10050 4950
+Wire Wire Line
+	10050 4950 10050 5650
+Wire Wire Line
+	10650 4950 10750 4950
+Connection ~ 10750 4950
+Wire Wire Line
+	10750 4950 10750 5850
+Wire Wire Line
+	8700 4450 8700 4200
+Wire Wire Line
+	8700 4200 9400 4200
+Wire Wire Line
+	9750 4200 9750 4100
+Wire Wire Line
+	9400 4450 9400 4200
+Connection ~ 9400 4200
+Wire Wire Line
+	9400 4200 9750 4200
+Wire Wire Line
+	10050 4450 10050 4200
+Wire Wire Line
+	10050 4200 9750 4200
+Connection ~ 9750 4200
+Wire Wire Line
+	10750 4450 10750 4200
+Wire Wire Line
+	10750 4200 10050 4200
+Connection ~ 10050 4200
+Text Notes 7400 6200 0    50   ~ 0
+PWR wired to the NO pin \nGND wired to the G pin
+Text Label 2200 3100 2    50   ~ 0
+X_LIMIT_MIN
+Text Label 2200 3000 2    50   ~ 0
+X_LIMIT_MAX
+Text Label 2200 1600 2    50   ~ 0
+Y_LIMIT_MIN
+Text Label 2200 1500 2    50   ~ 0
+Y_LIMIT_MAX
+Text Notes 7400 6350 0    50   ~ 0
+MIN --> (0,0) 
+Wire Notes Line
+	6950 3850 6950 6400
+Wire Notes Line
+	6950 6400 11150 6400
+Wire Notes Line
+	11150 6400 11150 3850
+Wire Notes Line
+	11150 3850 6950 3850
+Text GLabel 5750 2900 2    50   Input ~ 0
+VALVE_CONTROL
+Text Notes 1000 3350 0    50   ~ 0
+add pullup for i2c
+$Comp
+L power:GND #PWR0413
+U 1 1 61990868
+P 6650 6050
+F 0 "#PWR0413" H 6650 5800 50  0001 C CNN
+F 1 "GND" H 6655 5877 50  0000 C CNN
+F 2 "" H 6650 6050 50  0001 C CNN
+F 3 "" H 6650 6050 50  0001 C CNN
+	1    6650 6050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5750 6050 5900 6050
+Text GLabel 5900 6050 2    50   Input ~ 0
+VALVE_GND
+$Comp
+L Connector_Generic:Conn_01x04 J405
+U 1 1 61995B02
+P 1850 5900
+F 0 "J405" H 1768 5475 50  0000 C CNN
+F 1 "USART 2" H 1768 5566 50  0000 C CNN
+F 2 "skittle_pnp:SULLINS_PPTC041LFBN-RC" H 1850 5900 50  0001 C CNN
+F 3 "~" H 1850 5900 50  0001 C CNN
+	1    1850 5900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x20 J401
+U 1 1 61A88153
+P 3450 2400
+F 0 "J401" H 3450 3550 50  0000 C CNN
+F 1 "Conn_01x20" H 3450 3450 50  0000 C CNN
+F 2 "skittle_pnp:RHDR20W80P0X254_1X20_5130X254X880P" H 3450 2400 50  0001 C CNN
+F 3 "~" H 3450 2400 50  0001 C CNN
+	1    3450 2400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J404
+U 1 1 61A94510
+P 1850 4800
+F 0 "J404" H 1768 4375 50  0000 C CNN
+F 1 "USART 1" H 1768 4466 50  0000 C CNN
+F 2 "skittle_pnp:SULLINS_PPTC041LFBN-RC" H 1850 4800 50  0001 C CNN
+F 3 "~" H 1850 4800 50  0001 C CNN
+	1    1850 4800
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J403
+U 1 1 61A98383
+P 1800 7050
+F 0 "J403" H 1718 6625 50  0000 C CNN
+F 1 "I2C" H 1718 6716 50  0000 C CNN
+F 2 "skittle_pnp:SULLINS_PPTC041LFBN-RC" H 1800 7050 50  0001 C CNN
+F 3 "~" H 1800 7050 50  0001 C CNN
+	1    1800 7050
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J410
+U 1 1 61A98DDE
+P 4050 6050
+F 0 "J410" H 3968 5625 50  0000 C CNN
+F 1 "MOTOR 2" H 3968 5716 50  0000 C CNN
+F 2 "skittle_pnp:SULLINS_PPTC041LFBN-RC" H 4050 6050 50  0001 C CNN
+F 3 "~" H 4050 6050 50  0001 C CNN
+	1    4050 6050
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J407
+U 1 1 61AA1338
+P 4050 5150
+F 0 "J407" H 3968 4725 50  0000 C CNN
+F 1 "MOTOR 1" H 3968 4816 50  0000 C CNN
+F 2 "skittle_pnp:SULLINS_PPTC041LFBN-RC" H 4050 5150 50  0001 C CNN
+F 3 "~" H 4050 5150 50  0001 C CNN
+	1    4050 5150
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J406
+U 1 1 61AA1940
+P 4050 4450
+F 0 "J406" H 3968 4025 50  0000 C CNN
+F 1 "SERVO" H 3968 4116 50  0000 C CNN
+F 2 "skittle_pnp:SULLINS_PPTC041LFBN-RC" H 4050 4450 50  0001 C CNN
+F 3 "~" H 4050 4450 50  0001 C CNN
+	1    4050 4450
+	-1   0    0    1   
+$EndComp
+Text Notes 3950 6150 1    50   ~ 0
+Motor 2\n
+Text Notes 3950 5250 1    50   ~ 0
+Motor 1
+Text Notes 3950 4550 1    50   ~ 0
+Servo
+Text Notes 5450 5200 1    50   ~ 0
+Power
+Text Notes 5850 6300 2    50   ~ 0
+Valve and Pump
+Wire Wire Line
+	6200 4950 6400 4950
+Text GLabel 5750 2200 2    50   Output ~ 0
+MOTOR2_MS3
+Text GLabel 5750 2100 2    50   Output ~ 0
+MOTOR2_MS2
+Text GLabel 5750 2000 2    50   Output ~ 0
+MOTOR2_MS1
+Text GLabel 5750 1900 2    35   Output ~ 0
+MOTOR2_~EN
+Text GLabel 5750 2300 2    50   Output ~ 0
+MOTOR2_STEP
+Text GLabel 5750 2400 2    50   Output ~ 0
+MOTOR2_DIR
+Text GLabel 2200 2600 0    50   Output ~ 0
+MOTOR1_STEP
+Text GLabel 2200 2700 0    50   Output ~ 0
+MOTOR1_DIR
+Text GLabel 2200 2200 0    35   Output ~ 0
+MOTOR1_~EN
+Text GLabel 2200 2300 0    50   Output ~ 0
+MOTOR1_MS1
+Text GLabel 2200 2400 0    50   Output ~ 0
+MOTOR1_MS2
+Text GLabel 2200 2500 0    50   Output ~ 0
+MOTOR1_MS3
+$EndSCHEMATC

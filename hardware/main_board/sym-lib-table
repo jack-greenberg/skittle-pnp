@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name skittle_pnp)(type Legacy)(uri /home/dchadiuk/skittle-pnp/hardware/skittle_pnp.lib)(options "")(descr ""))
+)

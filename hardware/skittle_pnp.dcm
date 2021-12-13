@@ -1,0 +1,15 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP C_10uF+
+D 10uF Tantalum Capacitor
+K cap capacitor
+F https://www.vishay.com/docs/40080/tr3.pdf
+$ENDCMP
+#
+$CMP D_200_1A
+D Diode
+K diode
+F https://www.diodes.com/assets/Datasheets/ds14001.pdf
+$ENDCMP
+#
+#End Doc Library
